@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  cadvisor:
+    restart: always
+    image: google/cadvisor:v0.33.0
+    container_name: cadvisor
+    volumes:
+      - "/:/rootfs:ro"
+      - "/var/run:/var/run:rw"
+      - "/sys:/sys:ro"
+      - "/var/snap/docker/current:/var/lib/docker:ro" #- "/var/lib/docker/:/var/lib/docker:ro"
+    expose:
+      - "8080"
+    ports:
+      - 8085:8080
+
+  prometheus:
+    restart: always
+    depends_on:
+      - linode-exporter
+    image: prom/prometheus:v2.14.0
+    container_name: prometheus
+    volumes:
+      - "${PWD}/prometheus.yml:/etc/prometheus/prometheus.yml"
+    expose:
+      - "9090"
+    ports:
+      - 9090:9090
+
+  linode-exporter:
+    image: dazwilkin/linode-exporter@sha256:77866a7fc178e50cc8250b452c49d896678ae3647b3627a7074169695e012dbb
+    container_name: linode-exporter
+    command:
+      - --token=${TOKEN}
+    expose:
+      - "2112"
+    ports:
+      - 2112:2112
