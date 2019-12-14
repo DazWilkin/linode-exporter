@@ -9,7 +9,10 @@ services:
       - "/:/rootfs:ro"
       - "/var/run:/var/run:rw"
       - "/sys:/sys:ro"
-      - "/var/snap/docker/current:/var/lib/docker:ro" #- "/var/lib/docker/:/var/lib/docker:ro"
+      # Default location
+      # - "/var/lib/docker/:/var/lib/docker:ro"
+      # Snap location
+      - "/var/snap/docker/current:/var/lib/docker:ro"
     expose:
       - "8080"
     ports:
@@ -29,7 +32,7 @@ services:
       - 9090:9090
 
   linode-exporter:
-    image: dazwilkin/linode-exporter:2b20799c769cc080499a7c4bc57712ee7c986b55
+    image: dazwilkin/linode-exporter:d82021f7ef001f02e45bd94a33389339aa16ee1d
     container_name: linode-exporter
     command:
       - --token=${TOKEN}
