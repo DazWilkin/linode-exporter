@@ -54,6 +54,7 @@ func NewNodeBalancerCollector(client linodego.Client) *NodeBalancerCollector {
 
 // Collect implements Collector interface and is called by Prometheus to collect metrics
 func (c *NodeBalancerCollector) Collect(ch chan<- prometheus.Metric) {
+	log.Println("[NodeBalancerCollector:Collect] Entered")
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
 
@@ -62,7 +63,7 @@ func (c *NodeBalancerCollector) Collect(ch chan<- prometheus.Metric) {
 		//TODO(dazwilkin) capture logs: Loki?
 		log.Fatal(err)
 	}
-	log.Printf("[main] len(nodebalancers)=%d", len(nodebalancers))
+	log.Printf("[NodeBalancerCollector:Collect] len(nodebalancers)=%d", len(nodebalancers))
 
 	ch <- prometheus.MustNewConstMetric(
 		c.Count,
@@ -72,6 +73,7 @@ func (c *NodeBalancerCollector) Collect(ch chan<- prometheus.Metric) {
 		[]string{"", "", ""}...,
 	)
 	for _, nodebalancer := range nodebalancers {
+		log.Printf("[NodeBalancerCollector:Collect] NodeBalancer ID (%d)", nodebalancer.ID)
 		labelValues := []string{
 			fmt.Sprintf("%d", nodebalancer.ID),
 			*nodebalancer.Label,
@@ -104,6 +106,7 @@ func (c *NodeBalancerCollector) Collect(ch chan<- prometheus.Metric) {
 
 // Describe implements Collector interface and is called by Prometheus to describe metrics
 func (c *NodeBalancerCollector) Describe(ch chan<- *prometheus.Desc) {
+	log.Println("[NodeBalancerCollector:Describe] Entered)
 	ch <- c.Count
 	ch <- c.TransferTotal
 	ch <- c.TransferOut
