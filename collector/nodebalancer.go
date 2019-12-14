@@ -80,6 +80,7 @@ func (c *NodeBalancerCollector) Collect(ch chan<- prometheus.Metric) {
 		wg.Add(1)
 		go func(nb linodego.NodeBalancer) {
 			defer wg.Done()
+			log.Printf("[NodeBalancerCollector:Collect:go] NodeBalancer ID (%d)", nb.ID)
 			labelValues := []string{
 				fmt.Sprintf("%d", nb.ID),
 				*nb.Label,
@@ -109,6 +110,7 @@ func (c *NodeBalancerCollector) Collect(ch chan<- prometheus.Metric) {
 		}(nodebalancer)
 	}
 	wg.Wait()
+	log.Println("[NodeBalancerCollector:Collect] Completes")
 }
 
 // Describe implements Collector interface and is called by Prometheus to describe metrics
@@ -118,4 +120,5 @@ func (c *NodeBalancerCollector) Describe(ch chan<- *prometheus.Desc) {
 	ch <- c.TransferTotal
 	ch <- c.TransferOut
 	ch <- c.TransferIn
+	log.Println("[NodeBalancerCollector:Describe] Completes")
 }
