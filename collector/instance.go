@@ -13,30 +13,31 @@ import (
 type InstanceCollector struct {
 	client linodego.Client
 
-	Total *prometheus.Desc
+	Count *prometheus.Desc
 	CPU   *prometheus.Desc
 }
 
 // NewInstanceCollector creates an InstanceCollector
 func NewInstanceCollector(client linodego.Client) *InstanceCollector {
-	labels := []string{"id", "label", "region"}
+	labelKeys := []string{"id", "label", "region"}
 	return &InstanceCollector{
 		client: client,
 
-		Total: prometheus.NewDesc(
+		Count: prometheus.NewDesc(
 			"linode_instance_count",
 			"The total number of Linodes",
-			labels,
+			labelKeys,
 			nil,
 		),
 		CPU: prometheus.NewDesc(
 			"linode_instance_cpu_utilization",
 			"The most recent CPU utilization value",
-			labels,
+			labelKeys,
 			nil,
 		),
 	}
 }
+
 // Collect implements Collector interface and is called by Prometheus to collect metrics
 func (c *InstanceCollector) Collect(ch chan<- prometheus.Metric) {
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
@@ -50,7 +51,7 @@ func (c *InstanceCollector) Collect(ch chan<- prometheus.Metric) {
 	log.Printf("[main] len(instances)=%d", len(instances))
 
 	ch <- prometheus.MustNewConstMetric(
-		c.Total,
+		c.Count,
 		prometheus.GaugeValue,
 		float64(len(instances)),
 		//TODO(dazwilkin) What metrics labels to use for this type of aggregate?
@@ -58,7 +59,7 @@ func (c *InstanceCollector) Collect(ch chan<- prometheus.Metric) {
 	)
 
 	for _, instance := range instances {
-		labels := []string{
+		labelValues := []string{
 			fmt.Sprintf("%d", instance.ID),
 			instance.Label,
 			instance.Region,
@@ -74,15 +75,16 @@ func (c *InstanceCollector) Collect(ch chan<- prometheus.Metric) {
 			c.CPU,
 			prometheus.GaugeValue,
 			stats.Data.CPU[0][0],
-			labels...,
+			labelValues...,
 		)
 		// }
 
 	}
 
 }
+
 // Describe implements Collector interface and is called by Prometheus to describe metrics
 func (c *InstanceCollector) Describe(ch chan<- *prometheus.Desc) {
-	ch <- c.Total
+	ch <- c.Count
 	ch <- c.CPU
 }
