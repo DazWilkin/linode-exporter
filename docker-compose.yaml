@@ -32,7 +32,7 @@ services:
       - 9090:9090
 
   linode-exporter:
-    image: dazwilkin/linode-exporter:d82021f7ef001f02e45bd94a33389339aa16ee1d
+    image: dazwilkin/linode-exporter:023a536004713ca2022238c927407075eb1ab33f
     container_name: linode-exporter
     command:
       - --token=${TOKEN}
