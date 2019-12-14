@@ -273,7 +273,7 @@ func (c *InstanceCollector) Collect(ch chan<- prometheus.Metric) {
 					labelValues...,
 				)
 				ch <- prometheus.MustNewConstMetric(
-					c.IPv4RxAvg,
+					c.IPv4TxAvg,
 					prometheus.GaugeValue,
 					total/float64(len(stats.Data.NetV4.In)),
 					labelValues...,
