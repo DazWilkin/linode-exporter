@@ -1,4 +1,4 @@
-# Prometheus Exporter for Linode
+# [Prometheus Exporter](https://prometheus.io/docs/instrumenting/exporters/) for [Linode](https://www.linode.com)
 
 Initial implementation: does not do much!
 
