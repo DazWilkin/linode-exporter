@@ -48,7 +48,7 @@ func (c *InstanceCollector) Collect(ch chan<- prometheus.Metric) {
 		//TODO(dazwilkin) capture logs
 		log.Fatal(err)
 	}
-	log.Printf("[main] len(instances)=%d", len(instances))
+	log.Printf("[InstaneCollector:Collect] len(instances)=%d", len(instances))
 
 	ch <- prometheus.MustNewConstMetric(
 		c.Count,
@@ -59,6 +59,7 @@ func (c *InstanceCollector) Collect(ch chan<- prometheus.Metric) {
 	)
 
 	for _, instance := range instances {
+		log.Printf("[InstanceCollector:Collect] Linode ID (%d)", instance.ID)
 		labelValues := []string{
 			fmt.Sprintf("%d", instance.ID),
 			instance.Label,
