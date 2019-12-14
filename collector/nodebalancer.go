@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"sync"
 
 	"github.com/linode/linodego"
 	"github.com/prometheus/client_golang/prometheus"
@@ -72,36 +73,42 @@ func (c *NodeBalancerCollector) Collect(ch chan<- prometheus.Metric) {
 		//TODO(dazwilkin) What metrics labels to use for this type of aggregate?
 		[]string{"", "", ""}...,
 	)
+
+	var wg sync.WaitGroup
 	for _, nodebalancer := range nodebalancers {
 		log.Printf("[NodeBalancerCollector:Collect] NodeBalancer ID (%d)", nodebalancer.ID)
-		labelValues := []string{
-			fmt.Sprintf("%d", nodebalancer.ID),
-			*nodebalancer.Label,
-			//TODO(dazwilkin) NodeBalanacer includes Tags too but these appear not key=value pairs
-			nodebalancer.Region,
-		}
-		//TODO(dazwilkin) GetNodeBalancerStats is not implemented
-		// stats, err := c.client.GetNodeBalancerStats(ctx, nodebalancer.ID)
-		ch <- prometheus.MustNewConstMetric(
-			c.TransferTotal,
-			prometheus.GaugeValue,
-			*nodebalancer.Transfer.Total,
-			labelValues...,
-		)
-		ch <- prometheus.MustNewConstMetric(
-			c.TransferOut,
-			prometheus.GaugeValue,
-			*nodebalancer.Transfer.Out,
-			labelValues...,
-		)
-		ch <- prometheus.MustNewConstMetric(
-			c.TransferIn,
-			prometheus.GaugeValue,
-			*nodebalancer.Transfer.In,
-			labelValues...,
-		)
-
+		wg.Add(1)
+		go func(nb linodego.NodeBalancer) {
+			defer wg.Done()
+			labelValues := []string{
+				fmt.Sprintf("%d", nb.ID),
+				*nb.Label,
+				//TODO(dazwilkin) NodeBalanacer includes Tags too but these appear not key=value pairs
+				nb.Region,
+			}
+			//TODO(dazwilkin) GetNodeBalancerStats is not implemented
+			// stats, err := c.client.GetNodeBalancerStats(ctx, nodebalancer.ID)
+			ch <- prometheus.MustNewConstMetric(
+				c.TransferTotal,
+				prometheus.GaugeValue,
+				*nb.Transfer.Total,
+				labelValues...,
+			)
+			ch <- prometheus.MustNewConstMetric(
+				c.TransferOut,
+				prometheus.GaugeValue,
+				*nb.Transfer.Out,
+				labelValues...,
+			)
+			ch <- prometheus.MustNewConstMetric(
+				c.TransferIn,
+				prometheus.GaugeValue,
+				*nb.Transfer.In,
+				labelValues...,
+			)
+		}(nodebalancer)
 	}
+	wg.Wait()
 }
 
 // Describe implements Collector interface and is called by Prometheus to describe metrics
