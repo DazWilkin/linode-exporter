@@ -29,7 +29,7 @@ services:
       - 9090:9090
 
   linode-exporter:
-    image: dazwilkin/linode-exporter@sha256:77866a7fc178e50cc8250b452c49d896678ae3647b3627a7074169695e012dbb
+    image: dazwilkin/linode-exporter:2b20799c769cc080499a7c4bc57712ee7c986b55
     container_name: linode-exporter
     command:
       - --token=${TOKEN}
