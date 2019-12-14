@@ -106,7 +106,7 @@ func (c *NodeBalancerCollector) Collect(ch chan<- prometheus.Metric) {
 
 // Describe implements Collector interface and is called by Prometheus to describe metrics
 func (c *NodeBalancerCollector) Describe(ch chan<- *prometheus.Desc) {
-	log.Println("[NodeBalancerCollector:Describe] Entered)
+	log.Println("[NodeBalancerCollector:Describe] Entered")
 	ch <- c.Count
 	ch <- c.TransferTotal
 	ch <- c.TransferOut
