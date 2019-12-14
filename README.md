@@ -27,6 +27,19 @@ go run github.com/DazWilkin/linode-exporter \
 
 ```bash
 export TOKEN=[[LINODE-API-TOKEN]]
+```
+Either:
+```bash
+PORT=2112
+docker run \
+--interactive \
+--tty \
+--publish=${PORT}:2112 \
+dazwilkin/linode-exporter:023a536004713ca2022238c927407075eb1ab33f \
+  --token=${TOKEN}
+```
+Or:
+```bash
 docker-compose --file=${PWD}/docker-compose.yaml up
 ```
 ## Metrics
