@@ -71,17 +71,17 @@ func (c *InstanceCollector) Collect(ch chan<- prometheus.Metric) {
 		log.Printf("[InstanceCollector:Collect] Linode ID (%d)", instance.ID)
 
 		wg.Add(1)
-		go func(instance linodego.Instance) {
+		go func(i linodego.Instance) {
 			defer wg.Done()
 			labelValues := []string{
-				fmt.Sprintf("%d", instance.ID),
-				instance.Label,
-				instance.Region,
+				fmt.Sprintf("%d", i.ID),
+				i.Label,
+				i.Region,
 			}
 
 			// https://developers.linode.com/api/v4/linode-instances-linode-id-stats
 			// Appears (!) to be 64 values (always) [0] == epoch in ms? [1] == value
-			stats, err := c.client.GetInstanceStats(ctx, instance.ID)
+			stats, err := c.client.GetInstanceStats(ctx, i.ID)
 			if err != nil {
 				log.Fatal(err)
 			}
