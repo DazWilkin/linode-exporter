@@ -15,7 +15,7 @@ type InstanceCollector struct {
 	client linodego.Client
 
 	Count  *prometheus.Desc
-	CPUAve *prometheus.Desc
+	CPUAvg *prometheus.Desc
 	CPUMax *prometheus.Desc
 }
 
@@ -31,7 +31,7 @@ func NewInstanceCollector(client linodego.Client) *InstanceCollector {
 			labelKeys,
 			nil,
 		),
-		CPUAve: prometheus.NewDesc(
+		CPUAvg: prometheus.NewDesc(
 			"linode_instance_cpu_average_utilization",
 			"The most recent CPU average utilization value",
 			labelKeys,
@@ -97,7 +97,7 @@ func (c *InstanceCollector) Collect(ch chan<- prometheus.Metric) {
 			}
 
 			ch <- prometheus.MustNewConstMetric(
-				c.CPUAve,
+				c.CPUAvg,
 				prometheus.GaugeValue,
 				total/float64(len(stats.Data.CPU)),
 				labelValues...,
@@ -116,6 +116,6 @@ func (c *InstanceCollector) Collect(ch chan<- prometheus.Metric) {
 // Describe implements Collector interface and is called by Prometheus to describe metrics
 func (c *InstanceCollector) Describe(ch chan<- *prometheus.Desc) {
 	ch <- c.Count
-	ch <- c.CPUAve
+	ch <- c.CPUAvg
 	ch <- c.CPUMax
 }
