@@ -2,6 +2,7 @@ package collector
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"github.com/linode/linodego"
@@ -12,19 +13,40 @@ import (
 type NodeBalancerCollector struct {
 	client linodego.Client
 
-	Total *prometheus.Desc
+	Count         *prometheus.Desc
+	TransferTotal *prometheus.Desc
+	TransferOut   *prometheus.Desc
+	TransferIn    *prometheus.Desc
 }
 
 // NewNodeBalancerCollector creates a NodeBalancerCollector
 func NewNodeBalancerCollector(client linodego.Client) *NodeBalancerCollector {
-	labels := []string{"id", "label", "region"}
+	labelKeys := []string{"id", "label", "region"}
 	return &NodeBalancerCollector{
 		client: client,
 
-		Total: prometheus.NewDesc(
+		Count: prometheus.NewDesc(
 			"linode_nodebalancer_count",
 			"The total number of NodeBalancers",
-			labels,
+			labelKeys,
+			nil,
+		),
+		TransferTotal: prometheus.NewDesc(
+			"linode_nodebalancer_transfer_total_bytes",
+			"The total number of bytes transferred by the NodeBalancer",
+			labelKeys,
+			nil,
+		),
+		TransferOut: prometheus.NewDesc(
+			"linode_nodebalancer_transfer_out_bytes",
+			"The total number of bytes transferred out by the NodeBalancer",
+			labelKeys,
+			nil,
+		),
+		TransferIn: prometheus.NewDesc(
+			"linode_nodebalancer_transfer_in_bytes",
+			"The total number of bytes transferred in by the NodeBalancer",
+			labelKeys,
 			nil,
 		),
 	}
@@ -43,20 +65,47 @@ func (c *NodeBalancerCollector) Collect(ch chan<- prometheus.Metric) {
 	log.Printf("[main] len(nodebalancers)=%d", len(nodebalancers))
 
 	ch <- prometheus.MustNewConstMetric(
-		c.Total,
+		c.Count,
 		prometheus.GaugeValue,
 		float64(len(nodebalancers)),
 		//TODO(dazwilkin) What metrics labels to use for this type of aggregate?
 		[]string{"", "", ""}...,
 	)
-	// for _, nodebalancer := range nodebalancers {
-	// 	labels := []string{
-	// 		fmt.Sprintf("%s", nodebalancer.ID),
-	// 	}
-	// }
+	for _, nodebalancer := range nodebalancers {
+		labelValues := []string{
+			fmt.Sprintf("%d", nodebalancer.ID),
+			*nodebalancer.Label,
+			//TODO(dazwilkin) NodeBalanacer includes Tags too but these appear not key=value pairs
+			nodebalancer.Region,
+		}
+		//TODO(dazwilkin) GetNodeBalancerStats is not implemented
+		// stats, err := c.client.GetNodeBalancerStats(ctx, nodebalancer.ID)
+		ch <- prometheus.MustNewConstMetric(
+			c.TransferTotal,
+			prometheus.GaugeValue,
+			*nodebalancer.Transfer.Total,
+			labelValues...,
+		)
+		ch <- prometheus.MustNewConstMetric(
+			c.TransferOut,
+			prometheus.GaugeValue,
+			*nodebalancer.Transfer.Out,
+			labelValues...,
+		)
+		ch <- prometheus.MustNewConstMetric(
+			c.TransferIn,
+			prometheus.GaugeValue,
+			*nodebalancer.Transfer.In,
+			labelValues...,
+		)
+
+	}
 }
 
 // Describe implements Collector interface and is called by Prometheus to describe metrics
 func (c *NodeBalancerCollector) Describe(ch chan<- *prometheus.Desc) {
-	ch <- c.Total
+	ch <- c.Count
+	ch <- c.TransferTotal
+	ch <- c.TransferOut
+	ch <- c.TransferIn
 }
