@@ -62,7 +62,7 @@ func (c *NodeBalancerCollector) Collect(ch chan<- prometheus.Metric) {
 	nodebalancers, err := c.client.ListNodeBalancers(ctx, nil)
 	if err != nil {
 		//TODO(dazwilkin) capture logs: Loki?
-		log.Fatal(err)
+		log.Println(err)
 	}
 	log.Printf("[NodeBalancerCollector:Collect] len(nodebalancers)=%d", len(nodebalancers))
 

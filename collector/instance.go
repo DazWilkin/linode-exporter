@@ -54,7 +54,7 @@ func (c *InstanceCollector) Collect(ch chan<- prometheus.Metric) {
 	instances, err := c.client.ListInstances(ctx, nil)
 	if err != nil {
 		//TODO(dazwilkin) capture logs
-		log.Fatal(err)
+		log.Println(err)
 	}
 	log.Printf("[InstaneCollector:Collect] len(instances)=%d", len(instances))
 
