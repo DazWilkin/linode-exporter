@@ -17,6 +17,7 @@ import (
 
 var (
 	apiToken    = flag.String("token", "", "Linode API Token")
+	debug       = flag.Bool("debug", false, "Enable Linode REST API debugging")
 	endpoint    = flag.String("endpoint", ":2112", "The endpoint of the HTTP server")
 	metricsPath = flag.String("path", "/metrics", "The path on which Prometheus metrics will be served")
 )
@@ -35,7 +36,7 @@ func main() {
 		},
 	}
 	linodeClient := linodego.NewClient(oauth2Client)
-	linodeClient.SetDebug(true)
+	linodeClient.SetDebug(*debug)
 
 	registry := prometheus.NewRegistry()
 	registry.MustRegister(collector.NewInstanceCollector(linodeClient))
