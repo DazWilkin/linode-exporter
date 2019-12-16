@@ -35,13 +35,14 @@ func main() {
 			Source: source,
 		},
 	}
-	linodeClient := linodego.NewClient(oauth2Client)
-	linodeClient.SetDebug(*debug)
+	client := linodego.NewClient(oauth2Client)
+	client.SetDebug(*debug)
 
 	registry := prometheus.NewRegistry()
-	registry.MustRegister(collector.NewAccountCollector(linodeClient))
-	registry.MustRegister(collector.NewInstanceCollector(linodeClient))
-	registry.MustRegister(collector.NewNodeBalancerCollector(linodeClient))
+	registry.MustRegister(collector.NewAccountCollector(client))
+	registry.MustRegister(collector.NewInstanceCollector(client))
+	registry.MustRegister(collector.NewNodeBalancerCollector(client))
+	registry.MustRegister(collector.NewSupportCollector(client))
 
 	http.Handle(*metricsPath, promhttp.HandlerFor(registry, promhttp.HandlerOpts{}))
 	log.Fatal(http.ListenAndServe(*endpoint, nil))
