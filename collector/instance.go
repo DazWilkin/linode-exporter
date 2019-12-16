@@ -32,72 +32,73 @@ type InstanceCollector struct {
 // NewInstanceCollector creates an InstanceCollector
 func NewInstanceCollector(client linodego.Client) *InstanceCollector {
 	log.Println("[NewInstanceCollector] Entered")
+	fqName := name("instance")
 	labelKeys := []string{"id", "label", "region"}
 	return &InstanceCollector{
 		client: client,
 
 		Count: prometheus.NewDesc(
-			"linode_instance_count",
+			fqName("count"),
 			"Total number of Linodes",
 			labelKeys,
 			nil,
 		),
 		CPUAvg: prometheus.NewDesc(
-			"linode_instance_cpu_average_utilization",
+			fqName("cpu_average_utilization"),
 			"CPU average utilization value for past 24 hours",
 			labelKeys,
 			nil,
 		),
 		CPUMax: prometheus.NewDesc(
-			"linode_instance_cpu_max_utilization",
+			fqName("cpu_max_utilization"),
 			"CPU max utilization value for past 24 hours",
 			labelKeys,
 			nil,
 		),
 		IOSum: prometheus.NewDesc(
-			"linode_instance_io_total_blocks",
+			fqName("io_total_blocks"),
 			"IO total blocks written in past 24 hours",
 			labelKeys,
 			nil,
 		),
 		IOAvg: prometheus.NewDesc(
-			"linode_instance_io_average_blocks",
+			fqName("io_average_blocks"),
 			"IO average blocks written in past 24 hours",
 			labelKeys,
 			nil,
 		),
 		SwapSum: prometheus.NewDesc(
-			"linode_instance_swap_total_blocks",
+			fqName("swap_total_blocks"),
 			"Swap total blocks written in past 24 hours",
 			labelKeys,
 			nil,
 		),
 		SwapAvg: prometheus.NewDesc(
-			"linode_instance_swap_average_blocks",
+			fqName("swap_average_blocks"),
 			"Swap average blocks written in past 24 hours",
 			labelKeys,
 			nil,
 		),
 		IPv4RxSum: prometheus.NewDesc(
-			"linode_instance_ipv4_total_bits_received",
+			fqName("ipv4_total_bits_received"),
 			"IPv4 total bits received over past 24 hours",
 			labelKeys,
 			nil,
 		),
 		IPv4RxAvg: prometheus.NewDesc(
-			"linode_instance_ipv4_average_bits_received",
+			fqName("ipv4_average_bits_received"),
 			"IPv4 average bits received over past 24 hours",
 			labelKeys,
 			nil,
 		),
 		IPv4TxSum: prometheus.NewDesc(
-			"linode_instance_ipv4_total_bits_sent",
+			fqName("ipv4_total_bits_sent"),
 			"IPv4 total bits sent over past 24 hours",
 			labelKeys,
 			nil,
 		),
 		IPv4TxAvg: prometheus.NewDesc(
-			"linode_instance_ipv4_average_bits_sent",
+			fqName("ipv4_average_bits_sent"),
 			"IPv4 average bits sent over past 24 hours",
 			labelKeys,
 			nil,

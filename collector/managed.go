@@ -23,11 +23,13 @@ type ManagedCollector struct {
 }
 
 func NewManagedCollector(client linodego.Client) *ManagedCollector {
+	log.Println("[NewManagedCollector] Entered")
+	fqName := name("managed")
 	labelKeys := []string{"account"}
 	return &ManagedCollector{
 		client: client,
 		CPUAvg: prometheus.NewDesc(
-			"linode_managed_cpu_average_utiliziation",
+			fqName("cpu_average_utiliziation"),
 			"CPU usage stats for the past 24 hours",
 			labelKeys,
 			nil,

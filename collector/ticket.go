@@ -19,12 +19,13 @@ type TicketCollector struct {
 // NewTicketCollector creates a TicketCollector
 func NewTicketCollector(client linodego.Client) *TicketCollector {
 	log.Println("[NewTicketCollector] Entered")
+	fqName := name("tickets")
 	labelKeys := []string{"status"}
 	return &TicketCollector{
 		client: client,
 
 		Count: prometheus.NewDesc(
-			"linode_support_tickets_count",
+			fqName("count"),
 			"number of support tickets",
 			labelKeys,
 			nil,

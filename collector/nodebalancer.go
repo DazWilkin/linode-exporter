@@ -23,30 +23,31 @@ type NodeBalancerCollector struct {
 // NewNodeBalancerCollector creates a NodeBalancerCollector
 func NewNodeBalancerCollector(client linodego.Client) *NodeBalancerCollector {
 	log.Println("[NewNodeBalancerCollector] Entered")
+	fqName := name("nodebalancer")
 	labelKeys := []string{"id", "label", "region"}
 	return &NodeBalancerCollector{
 		client: client,
 
 		Count: prometheus.NewDesc(
-			"linode_nodebalancer_count",
+			fqName("count"),
 			"Total number of NodeBalancers",
 			labelKeys,
 			nil,
 		),
 		TransferTotal: prometheus.NewDesc(
-			"linode_nodebalancer_transfer_total_bytes",
+			fqName("transfer_total_bytes"),
 			"MB transferred this month by the NodeBalancer",
 			labelKeys,
 			nil,
 		),
 		TransferOut: prometheus.NewDesc(
-			"linode_nodebalancer_transfer_out_bytes",
+			fqName("transfer_out_bytes"),
 			"MB transferred out this month by the NodeBalancer",
 			labelKeys,
 			nil,
 		),
 		TransferIn: prometheus.NewDesc(
-			"linode_nodebalancer_transfer_in_bytes",
+			fqName("transfer_in_bytes"),
 			"MB transferred in this month by the NodeBalancer",
 			labelKeys,
 			nil,
