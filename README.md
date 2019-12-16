@@ -13,12 +13,12 @@ go get github.com/DazWilkin/linode-exporter
 ```
 Then:
 ```bash
-TOKEN=[[YOUR-LINODE-API-TOKEN]]
+LINODE_TOKEN=[[YOUR-LINODE-API-TOKEN]]
 ENDPOINT=":2112"
 PATH="/metrics"
 
 go run github.com/DazWilkin/linode-exporter \
---token=${TOKEN} \
+--linode_token=${LINODE_TOKEN} \
 --endpoint=${ENDPOINT} \
 --path=${PATH}
 ```
@@ -26,7 +26,7 @@ go run github.com/DazWilkin/linode-exporter \
 ## Run-only Installation
 
 ```bash
-export TOKEN=[[LINODE-API-TOKEN]]
+export LINODE_TOKEN=[[LINODE-API-TOKEN]]
 ```
 Either:
 ```bash
@@ -35,8 +35,8 @@ docker run \
 --interactive \
 --tty \
 --publish=${PORT}:2112 \
-dazwilkin/linode-exporter:023a536004713ca2022238c927407075eb1ab33f \
-  --token=${TOKEN}
+dazwilkin/linode-exporter:0d20258d4df27e592e8781a58640b363499b5b1c \
+  --linode_token=${LINODE_TOKEN}
 ```
 Or:
 ```bash
@@ -61,3 +61,10 @@ docker-compose --file=${PWD}/docker-compose.yaml up
 
 Yeah, basic :-)
 
+## Development
+
+Each 'collector' is defined under `/collectors/[name].go`.
+
+Collectors are instantiated by `main.go` with `registry.MustRegister(NewSomethingCollector(linodeClient))`
+
+The `[name].go` collector implements Prometheus' Collector interface: `Collect` and `Describe`
