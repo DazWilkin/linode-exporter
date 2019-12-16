@@ -32,10 +32,10 @@ services:
       - 9090:9090
 
   linode-exporter:
-    image: dazwilkin/linode-exporter:023a536004713ca2022238c927407075eb1ab33f
+    image: dazwilkin/linode-exporter:0d20258d4df27e592e8781a58640b363499b5b1c
     container_name: linode-exporter
     command:
-      - --token=${TOKEN}
+      - --linode_token=${LINODE_TOKEN}
     expose:
       - "2112"
     ports:
