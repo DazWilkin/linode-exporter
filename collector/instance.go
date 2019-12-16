@@ -31,6 +31,7 @@ type InstanceCollector struct {
 
 // NewInstanceCollector creates an InstanceCollector
 func NewInstanceCollector(client linodego.Client) *InstanceCollector {
+	log.Println("[NewInstanceCollector] Entered")
 	labelKeys := []string{"id", "label", "region"}
 	return &InstanceCollector{
 		client: client,
@@ -106,6 +107,7 @@ func NewInstanceCollector(client linodego.Client) *InstanceCollector {
 
 // Collect implements Collector interface and is called by Prometheus to collect metrics
 func (c *InstanceCollector) Collect(ch chan<- prometheus.Metric) {
+	log.Println("[InstanceCollector:Collect] Entered")
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
 
@@ -258,6 +260,7 @@ func (c *InstanceCollector) Collect(ch chan<- prometheus.Metric) {
 		}(instance)
 	}
 	wg.Wait()
+	log.Println("[InstanceCollector:Collect] Completes")
 }
 
 // Describe implements Collector interface and is called by Prometheus to describe metrics
@@ -274,5 +277,5 @@ func (c *InstanceCollector) Describe(ch chan<- *prometheus.Desc) {
 	ch <- c.IPv4RxAvg
 	ch <- c.IPv4TxSum
 	ch <- c.IPv4TxAvg
-	log.Println("[InstanceCollector:Describe] Completed")
+	log.Println("[InstanceCollector:Describe] Completes")
 }

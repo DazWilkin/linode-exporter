@@ -8,6 +8,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 )
 
+// AccountCollector represents a Linode Account
 type AccountCollector struct {
 	client linodego.Client
 
@@ -15,7 +16,9 @@ type AccountCollector struct {
 	Uninvoiced *prometheus.Desc
 }
 
+// NewAccountCollector creates an AccountCollector
 func NewAccountCollector(client linodego.Client) *AccountCollector {
+	log.Println("[NewAccountCollector] Entered")
 	labelKeys := []string{"company", "email"}
 	return &AccountCollector{
 		client: client,
@@ -34,7 +37,10 @@ func NewAccountCollector(client linodego.Client) *AccountCollector {
 		),
 	}
 }
+
+// Collect implements Collector interface and is called by Prometheus to collect metrics
 func (c *AccountCollector) Collect(ch chan<- prometheus.Metric) {
+	log.Println("[AccountCollector:Collect] Entered")
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
 
@@ -58,9 +64,13 @@ func (c *AccountCollector) Collect(ch chan<- prometheus.Metric) {
 		0.0, //float64(account.BalanceUninvoiced),
 		[]string{account.Company, account.Email}...,
 	)
-
+	log.Println("[AccountCollector:Collect] Completes")
 }
+
+// Describe implements Collector interface and is called by Prometheus to describe metrics
 func (c *AccountCollector) Describe(ch chan<- *prometheus.Desc) {
+	log.Println("[AccountCollector:Describe] Entered")
 	ch <- c.Balance
 	ch <- c.Uninvoiced
+	log.Println("[AccountCollector:Describe] Completes")
 }

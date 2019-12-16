@@ -22,6 +22,7 @@ type NodeBalancerCollector struct {
 
 // NewNodeBalancerCollector creates a NodeBalancerCollector
 func NewNodeBalancerCollector(client linodego.Client) *NodeBalancerCollector {
+	log.Println("[NewNodeBalancerCollector] Entered")
 	labelKeys := []string{"id", "label", "region"}
 	return &NodeBalancerCollector{
 		client: client,
