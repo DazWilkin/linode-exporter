@@ -39,6 +39,7 @@ func main() {
 	linodeClient.SetDebug(*debug)
 
 	registry := prometheus.NewRegistry()
+	registry.MustRegister(collector.NewAccountCollector(linodeClient))
 	registry.MustRegister(collector.NewInstanceCollector(linodeClient))
 	registry.MustRegister(collector.NewNodeBalancerCollector(linodeClient))
 
