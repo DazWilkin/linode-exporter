@@ -89,24 +89,31 @@ func (c *NodeBalancerCollector) Collect(ch chan<- prometheus.Metric) {
 			}
 			//TODO(dazwilkin) GetNodeBalancerStats is not implemented
 			// stats, err := c.client.GetNodeBalancerStats(ctx, nodebalancer.ID)
-			ch <- prometheus.MustNewConstMetric(
-				c.TransferTotal,
-				prometheus.GaugeValue,
-				*nb.Transfer.Total,
-				labelValues...,
-			)
-			ch <- prometheus.MustNewConstMetric(
-				c.TransferOut,
-				prometheus.GaugeValue,
-				*nb.Transfer.Out,
-				labelValues...,
-			)
-			ch <- prometheus.MustNewConstMetric(
-				c.TransferIn,
-				prometheus.GaugeValue,
-				*nb.Transfer.In,
-				labelValues...,
-			)
+			// nb.Transfer.[Total|Out|In] may be nil; only report these values when non-nil
+			if nb.Transfer.Total != nil {
+				ch <- prometheus.MustNewConstMetric(
+					c.TransferTotal,
+					prometheus.GaugeValue,
+					*nb.Transfer.Total,
+					labelValues...,
+				)
+			}
+			if nb.Transfer.Out != nil {
+				ch <- prometheus.MustNewConstMetric(
+					c.TransferOut,
+					prometheus.GaugeValue,
+					*nb.Transfer.Out,
+					labelValues...,
+				)
+			}
+			if nb.Transfer.In != nil {
+				ch <- prometheus.MustNewConstMetric(
+					c.TransferIn,
+					prometheus.GaugeValue,
+					*nb.Transfer.In,
+					labelValues...,
+				)
+			}
 		}(nodebalancer)
 	}
 	wg.Wait()
