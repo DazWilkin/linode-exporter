@@ -37,7 +37,7 @@ func NewInstanceCollector(client linodego.Client) *InstanceCollector {
 
 		Count: prometheus.NewDesc(
 			"linode_instance_count",
-			"The total number of Linodes",
+			"Total number of Linodes",
 			labelKeys,
 			nil,
 		),
@@ -131,7 +131,7 @@ func (c *InstanceCollector) Collect(ch chan<- prometheus.Metric) {
 		wg.Add(1)
 		go func(i linodego.Instance) {
 			defer wg.Done()
-			log.Printf("[InstanceCollector:Collect:go] Linode ID (%d)", instance.ID)
+			log.Printf("[InstanceCollector:Collect:go] Linode ID (%d)", i.ID)
 			labelValues := []string{
 				fmt.Sprintf("%d", i.ID),
 				i.Label,
@@ -141,144 +141,117 @@ func (c *InstanceCollector) Collect(ch chan<- prometheus.Metric) {
 			// https://developers.linode.com/api/v4/linode-instances-linode-id-stats
 			// Appears (!) to be 64 values (always) [0] == epoch in ms? [1] == value
 			var wg2 sync.WaitGroup
-			log.Printf("[InstanceCollector:Collect:go] Linode ID (%d) -- getting stats", instance.ID)
+			log.Printf("[InstanceCollector:Collect:go] Linode ID (%d) -- getting stats", i.ID)
 			stats, err := c.client.GetInstanceStats(ctx, i.ID)
 			if err != nil {
-				log.Fatal(err)
+				log.Println(err)
+				return
 			}
 
 			// CPU
 			wg2.Add(1)
-			go func() {
+			go func(i linodego.Instance) {
 				defer wg2.Done()
-				log.Printf("[InstanceCollector:Collect:go:go] Linode ID (%d) -- computing CPU stats", instance.ID)
-				var total, max float64
-				for _, cpu := range stats.Data.CPU {
-					if cpu[1] != 0.0 {
-						total += cpu[1]
-						if cpu[1] > max {
-							max = cpu[1]
-						}
-					}
-				}
+				log.Printf("[InstanceCollector:Collect:go:go] Linode ID (%d) -- computing CPU stats", i.ID)
+				ts := NewTimeSeries(stats.Data.CPU)
 
 				ch <- prometheus.MustNewConstMetric(
 					c.CPUAvg,
 					prometheus.GaugeValue,
-					total/float64(len(stats.Data.CPU)),
+					ts.Avg(),
 					labelValues...,
 				)
 				ch <- prometheus.MustNewConstMetric(
 					c.CPUMax,
 					prometheus.GaugeValue,
-					max,
+					ts.Max(),
 					labelValues...,
 				)
-			}()
+			}(i)
 
 			// IO
 			wg2.Add(1)
-			go func() {
+			go func(i linodego.Instance) {
 				defer wg2.Done()
-				log.Printf("[InstanceCollector:Collect:go:go] Linode ID (%d) -- computing IO stats", instance.ID)
-				var total float64
-				for _, io := range stats.Data.IO.IO {
-					if io[1] != 0.0 {
-						total += io[1]
-					}
-				}
-
+				log.Printf("[InstanceCollector:Collect:go:go] Linode ID (%d) -- computing IO stats", i.ID)
+				ts:=NewTimeSeries(stats.Data.IO)
+				
 				ch <- prometheus.MustNewConstMetric(
 					c.IOSum,
 					prometheus.GaugeValue,
-					total,
+					ts.Sum(),
 					labelValues...,
 				)
 				ch <- prometheus.MustNewConstMetric(
 					c.IOAvg,
 					prometheus.GaugeValue,
-					total/float64(len(stats.Data.IO.IO)),
+					ts.Avg(),
 					labelValues...,
 				)
-			}()
+			}(i)
 
 			// Swap
 			wg2.Add(1)
-			go func() {
+			go func(i linodego.Instance) {
 				defer wg2.Done()
-				log.Printf("[InstanceCollector:Collect:go:go] Linode ID (%d) -- computing Swap stats", instance.ID)
-				var total float64
-				for _, swap := range stats.Data.IO.Swap {
-					if swap[1] != 0.0 {
-						total += swap[1]
-					}
-				}
+				log.Printf("[InstanceCollector:Collect:go:go] Linode ID (%d) -- computing Swap stats", i.ID)
+				ts=NewTimeSeries(stats.Data.Swap)
 
 				ch <- prometheus.MustNewConstMetric(
 					c.SwapSum,
 					prometheus.GaugeValue,
-					total,
+					ts.Sum(),
 					labelValues...,
 				)
 				ch <- prometheus.MustNewConstMetric(
 					c.SwapAvg,
 					prometheus.GaugeValue,
-					total/float64(len(stats.Data.IO.Swap)),
+					ts.Avg(),
 					labelValues...,
 				)
-			}()
+			}(i)
 
 			// IPv4 In
 			wg2.Add(1)
-			go func() {
+			go func(i linodego.Instance) {
 				defer wg2.Done()
-				log.Printf("[InstanceCollector:Collect:go:go] Linode ID (%d) -- computing IPv4 Rx stats", instance.ID)
-				var total float64
-				for _, in := range stats.Data.NetV4.In {
-					if in[1] != 0.0 {
-						total += in[1]
-					}
-				}
+				log.Printf("[InstanceCollector:Collect:go:go] Linode ID (%d) -- computing IPv4 Rx stats", i.ID)
+				ts:=NewTimeSeries(stats.Data.NetV4.In)
 
 				ch <- prometheus.MustNewConstMetric(
 					c.IPv4RxSum,
 					prometheus.GaugeValue,
-					total,
+					ts.Sum(),
 					labelValues...,
 				)
 				ch <- prometheus.MustNewConstMetric(
 					c.IPv4RxAvg,
 					prometheus.GaugeValue,
-					total/float64(len(stats.Data.NetV4.In)),
+					ts.Avg(),
 					labelValues...,
 				)
-			}()
+			}(i)
 
 			// IPv4 Out
 			wg2.Add(1)
-			go func() {
+			go func(i linodego.Instance) {
 				defer wg2.Done()
-				log.Printf("[InstanceCollector:Collect:go:go] Linode ID (%d) -- computing IPv4 Tx stats", instance.ID)
-				var total float64
-				for _, out := range stats.Data.NetV4.Out {
-					if out[1] != 0.0 {
-						total += out[1]
-					}
-				}
+				log.Printf("[InstanceCollector:Collect:go:go] Linode ID (%d) -- computing IPv4 Tx stats", i.ID)
+				ts:=NewTimeSeries(stats.Data.NetV4.Out)
 
 				ch <- prometheus.MustNewConstMetric(
 					c.IPv4TxSum,
 					prometheus.GaugeValue,
-					total,
+					ts.Sum(),
 					labelValues...,
 				)
 				ch <- prometheus.MustNewConstMetric(
 					c.IPv4TxAvg,
 					prometheus.GaugeValue,
-					total/float64(len(stats.Data.NetV4.In)),
+					ts.Avg()
 					labelValues...,
 				)
-			}()
+			}(i)
 
 			wg2.Wait()
 
@@ -289,6 +262,7 @@ func (c *InstanceCollector) Collect(ch chan<- prometheus.Metric) {
 
 // Describe implements Collector interface and is called by Prometheus to describe metrics
 func (c *InstanceCollector) Describe(ch chan<- *prometheus.Desc) {
+	log.Println("[InstanceCollector:Describe] Entered")
 	ch <- c.Count
 	ch <- c.CPUAvg
 	ch <- c.CPUMax
@@ -300,5 +274,5 @@ func (c *InstanceCollector) Describe(ch chan<- *prometheus.Desc) {
 	ch <- c.IPv4RxAvg
 	ch <- c.IPv4TxSum
 	ch <- c.IPv4TxAvg
-
+	log.Println("[InstanceCollector:Describe] Completed")
 }

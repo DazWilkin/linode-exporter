@@ -28,25 +28,25 @@ func NewNodeBalancerCollector(client linodego.Client) *NodeBalancerCollector {
 
 		Count: prometheus.NewDesc(
 			"linode_nodebalancer_count",
-			"The total number of NodeBalancers",
+			"Total number of NodeBalancers",
 			labelKeys,
 			nil,
 		),
 		TransferTotal: prometheus.NewDesc(
 			"linode_nodebalancer_transfer_total_bytes",
-			"The total number of MB transferred this month by the NodeBalancer",
+			"MB transferred this month by the NodeBalancer",
 			labelKeys,
 			nil,
 		),
 		TransferOut: prometheus.NewDesc(
 			"linode_nodebalancer_transfer_out_bytes",
-			"The total number of MB transferred out this month by the NodeBalancer",
+			"MB transferred out this month by the NodeBalancer",
 			labelKeys,
 			nil,
 		),
 		TransferIn: prometheus.NewDesc(
 			"linode_nodebalancer_transfer_in_bytes",
-			"The total number of MB transferred in this month by the NodeBalancer",
+			"MB transferred in this month by the NodeBalancer",
 			labelKeys,
 			nil,
 		),
