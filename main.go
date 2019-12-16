@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	apiToken    = flag.String("token", "", "Linode API Token")
+	token       = flag.String("linode_token", "", "Linode API Token")
 	debug       = flag.Bool("debug", false, "Enable Linode REST API debugging")
 	endpoint    = flag.String("endpoint", ":2112", "The endpoint of the HTTP server")
 	metricsPath = flag.String("path", "/metrics", "The path on which Prometheus metrics will be served")
@@ -24,11 +24,11 @@ var (
 
 func main() {
 	flag.Parse()
-	if *apiToken == "" {
+	if *token == "" {
 		log.Fatal("Provide Linode API Token")
 	}
 	source := oauth2.StaticTokenSource(&oauth2.Token{
-		AccessToken: *apiToken,
+		AccessToken: *token,
 	})
 	oauth2Client := &http.Client{
 		Transport: &oauth2.Transport{
@@ -42,7 +42,7 @@ func main() {
 	registry.MustRegister(collector.NewAccountCollector(client))
 	registry.MustRegister(collector.NewInstanceCollector(client))
 	registry.MustRegister(collector.NewNodeBalancerCollector(client))
-	registry.MustRegister(collector.NewSupportCollector(client))
+	registry.MustRegister(collector.NewTicketCollector(client))
 
 	http.Handle(*metricsPath, promhttp.HandlerFor(registry, promhttp.HandlerOpts{}))
 	log.Fatal(http.ListenAndServe(*endpoint, nil))
