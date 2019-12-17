@@ -6,6 +6,8 @@ Inspired by and templated from [DigitalOcean Exporter](https://github.com/metalm
 
 Thanks [metalmatze](https://github.com/metalmatze)!
 
+![](images/linode_instance_count.png)
+
 ## Development Installation
 
 ```bash
@@ -35,7 +37,7 @@ docker run \
 --interactive \
 --tty \
 --publish=${PORT}:2112 \
-dazwilkin/linode-exporter:0d20258d4df27e592e8781a58640b363499b5b1c \
+dazwilkin/linode-exporter:fd9ad631bd0514cb5ce792d6b0b7c57c503b38d5 \
   --linode_token=${LINODE_TOKEN}
 ```
 Or:
