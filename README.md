@@ -64,7 +64,7 @@ docker-compose --file=${PWD}/docker-compose.yaml up
 | `linode_nodebalancer_transfer_total_bytes`   | Gauge ||
 | `linode_nodebalancer_transfer_out_bytes`     | Gauge ||
 | `linode_nodebalancer_transfer_in_bytes`      | Gauge ||
-| `linode_support_tickets_count`               | Gauge ||
+| `linode_tickets_count`                       | Gauge ||
 
 Please file issues and feature requests
 
