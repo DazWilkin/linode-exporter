@@ -14,7 +14,7 @@ go get github.com/DazWilkin/linode-exporter
 Then:
 ```bash
 LINODE_TOKEN=[[YOUR-LINODE-API-TOKEN]]
-ENDPOINT=":2112"
+ENDPOINT=":9388"
 PATH="/metrics"
 
 go run github.com/DazWilkin/linode-exporter \
@@ -30,11 +30,11 @@ export LINODE_TOKEN=[[LINODE-API-TOKEN]]
 ```
 Either:
 ```bash
-PORT=2112
+PORT=9388
 docker run \
 --interactive \
 --tty \
---publish=${PORT}:2112 \
+--publish=${PORT}:${PORT} \
 dazwilkin/linode-exporter:fd9ad631bd0514cb5ce792d6b0b7c57c503b38d5 \
   --linode_token=${LINODE_TOKEN}
 ```
@@ -75,3 +75,7 @@ Each 'collector' is defined under `/collectors/[name].go`.
 Collectors are instantiated by `main.go` with `registry.MustRegister(NewSomethingCollector(linodeClient))`
 
 The `[name].go` collector implements Prometheus' Collector interface: `Collect` and `Describe`
+
+## Port Allocation
+
+Registered "Linode Exporter" on Prometheus Wiki's [Default Port Allocations](https://github.com/prometheus/prometheus/wiki/Default-port-allocations#exporters-starting-at-9100) with port 9388.

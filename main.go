@@ -18,7 +18,7 @@ import (
 var (
 	token       = flag.String("linode_token", "", "Linode API Token")
 	debug       = flag.Bool("debug", false, "Enable Linode REST API debugging")
-	endpoint    = flag.String("endpoint", ":2112", "The endpoint of the HTTP server")
+	endpoint    = flag.String("endpoint", ":9388", "The endpoint of the HTTP server")
 	metricsPath = flag.String("path", "/metrics", "The path on which Prometheus metrics will be served")
 )
 
