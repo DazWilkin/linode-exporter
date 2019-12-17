@@ -26,7 +26,7 @@ func NewTicketCollector(client linodego.Client) *TicketCollector {
 
 		Count: prometheus.NewDesc(
 			fqName("count"),
-			"number of support tickets",
+			"Number of support tickets",
 			labelKeys,
 			nil,
 		),

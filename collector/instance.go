@@ -39,7 +39,7 @@ func NewInstanceCollector(client linodego.Client) *InstanceCollector {
 
 		Count: prometheus.NewDesc(
 			fqName("count"),
-			"Total number of Linodes",
+			"Number of Linodes",
 			labelKeys,
 			nil,
 		),
