@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -22,6 +23,11 @@ var (
 	metricsPath = flag.String("path", "/metrics", "The path on which Prometheus metrics will be served")
 )
 
+func rootHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
+	fmt.Fprint(w, "<h2>Linode Exporter</h2>")
+	fmt.Fprintf(w, "<a href=\"%s\">metrics</a>", *metricsPath)
+}
 func main() {
 	flag.Parse()
 	if *token == "" {
@@ -44,6 +50,11 @@ func main() {
 	registry.MustRegister(collector.NewNodeBalancerCollector(client))
 	registry.MustRegister(collector.NewTicketCollector(client))
 
-	http.Handle(*metricsPath, promhttp.HandlerFor(registry, promhttp.HandlerOpts{}))
-	log.Fatal(http.ListenAndServe(*endpoint, nil))
+	mux := http.NewServeMux()
+	mux.Handle("/", http.HandlerFunc(rootHandler))
+	mux.Handle(*metricsPath, promhttp.HandlerFor(registry, promhttp.HandlerOpts{}))
+
+	log.Printf("[main] Server starting (%s)", *endpoint)
+	log.Printf("[main] metrics served on: %s", *metricsPath)
+	log.Fatal(http.ListenAndServe(*endpoint, mux))
 }
