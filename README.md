@@ -46,25 +46,25 @@ docker-compose --file=${PWD}/docker-compose.yaml up
 
 | Name                                       | Type  | Description
 | ----                                       | ----  | -----------
-| linode_account_balance                     | Gauge ||
-| linode_account_uninvoiced                  | Gauge ||
-| linode_instance_count                      | Gauge ||
-| linode_instance_cpu_average_utilization    | Gauge ||
-| linode_instance_cpu_max_utilization        | Gauge ||
-| linode_instance_io_total_blocks            | Gauge ||
-| linode_instance_io_average_blocks          | Gauge ||
-| linode_instance_swap_total_blocks          | Gauge ||
-| linode_instance_swap_average_blocks        | Gauge ||
-| linode_instance_ipv4_total_bits_received   | Gauge ||
-| linode_instance_ipv4_average_bits_received | Gauge ||
-| linode_instance_ipv4_total_bits_sent       | Gauge ||
-| linode_instance_ipv4_average_bits_sent     | Gauge ||
-| linode_instance_cpu_max_utilization        | Gauge ||
-| linode_nodebalancer_count                  | Gauge ||
-| linode_nodebalancer_transfer_total_bytes   | Gauge ||
-| linode_nodebalancer_transfer_out_bytes     | Gauge ||
-| linode_nodebalancer_transfer_in_bytes      | Gauge ||
-| linode_support_tickets_count               | Gauge ||
+| `linode_account_balance`                     | Gauge ||
+| `linode_account_uninvoiced`                  | Gauge ||
+| `linode_instance_count`                      | Gauge ||
+| `linode_instance_cpu_average_utilization`    | Gauge ||
+| `linode_instance_cpu_max_utilization`        | Gauge ||
+| `linode_instance_io_total_blocks`            | Gauge ||
+| `linode_instance_io_average_blocks`          | Gauge ||
+| `linode_instance_swap_total_blocks`          | Gauge ||
+| `linode_instance_swap_average_blocks`        | Gauge ||
+| `linode_instance_ipv4_total_bits_received`   | Gauge ||
+| `linode_instance_ipv4_average_bits_received` | Gauge ||
+| `linode_instance_ipv4_total_bits_sent`       | Gauge ||
+| `linode_instance_ipv4_average_bits_sent`     | Gauge ||
+| `linode_instance_cpu_max_utilization`        | Gauge ||
+| `linode_nodebalancer_count`                  | Gauge ||
+| `linode_nodebalancer_transfer_total_bytes`   | Gauge ||
+| `linode_nodebalancer_transfer_out_bytes`     | Gauge ||
+| `linode_nodebalancer_transfer_in_bytes`      | Gauge ||
+| `linode_support_tickets_count`               | Gauge ||
 
 Please file issues and feature requests
 
