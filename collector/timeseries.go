@@ -26,7 +26,7 @@ func NewTimeSeries(data [][]float64) *TimeSeries {
 }
 func (ts *TimeSeries) compute() {
 	log.Printf("[TimeSeries:compute] Entered")
-	// Initiailize statistics
+	// Initialize statistics
 	ts.avg = new(float64)
 	ts.min = new(float64)
 	ts.max = new(float64)
