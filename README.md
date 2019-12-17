@@ -1,7 +1,5 @@
 # [Prometheus Exporter](https://prometheus.io/docs/instrumenting/exporters/) for [Linode](https://www.linode.com)
 
-Initial implementation: does not do much!
-
 Inspired by and templated from [DigitalOcean Exporter](https://github.com/metalmatze/digitalocean_exporter).
 
 Thanks [metalmatze](https://github.com/metalmatze)!
@@ -68,7 +66,7 @@ docker-compose --file=${PWD}/docker-compose.yaml up
 | linode_nodebalancer_transfer_in_bytes      | Gauge ||
 | linode_support_tickets_count               | Gauge ||
 
-Yeah, basic :-)
+Please file issues and feature requests
 
 ## Development
 
