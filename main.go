@@ -17,6 +17,11 @@ import (
 )
 
 var (
+	// Injected during build using ldflags
+	GitCommit string
+	OSVersion string
+)
+var (
 	token       = flag.String("linode_token", "", "Linode API Token")
 	debug       = flag.Bool("debug", false, "Enable Linode REST API debugging")
 	endpoint    = flag.String("endpoint", ":9388", "The endpoint of the HTTP server")
@@ -46,6 +51,7 @@ func main() {
 
 	registry := prometheus.NewRegistry()
 	registry.MustRegister(collector.NewAccountCollector(client))
+	registry.MustRegister(collector.NewExporterCollector(client, OSVersion, GitCommit))
 	registry.MustRegister(collector.NewInstanceCollector(client))
 	registry.MustRegister(collector.NewNodeBalancerCollector(client))
 	registry.MustRegister(collector.NewTicketCollector(client))
