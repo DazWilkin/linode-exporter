@@ -48,6 +48,7 @@ docker-compose --file=${PWD}/docker-compose.yaml up
 | ----                                       | ----  | -----------
 | `linode_account_balance`                     | Gauge ||
 | `linode_account_uninvoiced`                  | Gauge ||
+| `linode_exporter_up`                         | Counter | A metric with a constant value of '1' labeled with go, OS and the exporter versions |
 | `linode_instance_count`                      | Gauge ||
 | `linode_instance_cpu_average_utilization`    | Gauge ||
 | `linode_instance_cpu_max_utilization`        | Gauge ||
