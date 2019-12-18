@@ -25,11 +25,11 @@ go run github.com/DazWilkin/linode-exporter \
 
 ## Run-only Installation
 
-```bash
-export LINODE_TOKEN=[[LINODE-API-TOKEN]]
-```
+### Linode Exporter only
+
 Either:
 ```bash
+LINODE_TOKEN=[[LINODE-API-TOKEN]]
 PORT=9388
 docker run \
 --interactive \
@@ -38,10 +38,37 @@ docker run \
 dazwilkin/linode-exporter:0e4f56babde7b13aaec9abbb3585c9a0e188572d \
   --linode_token=${LINODE_TOKEN}
 ```
-Or:
+
+The exporter's metrics endpoint will be available on `http://localhost:${PORT}/metrics`
+
+### Linode Exporter with [Prometheus](https://prometheus.io), [AlertManager](https://prometheus.io/docs/alerting/alertmanager/) and [cAdvisor](https://github.com/google/cadvisor)
+
+**NB** AlertManager integration is a work-in-progress
+
+The following 
 ```bash
+LINODE_TOKEN=[[LINODE-API-TOKEN]]
 docker-compose --file=${PWD}/docker-compose.yaml up
 ```
+You may check the state of the services using:
+```bash
+docker-compose ps
+```
+And logs for a specific service using, e.g.:
+```bash
+docker-compose logs linode-exporter
+```
+The following endpoints are exposed:
++ exporter's metrics: `http://localhost:9388/metrics`
++ prometheus UI: `http://localhost:9090`
++ cAdvisor UI: `http://locahost:8085` 
+
+**NB** cAdvisor is mapped to `:8085` rather than it's default port `:8080`
+
+Using the Prometheus UI, you may begin querying metrics by typing `linode_` to see the available set.
+
+The full list is below.
+
 ## Metrics
 
 | Name                                       | Type  | Description
