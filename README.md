@@ -104,6 +104,10 @@ Collectors are instantiated by `main.go` with `registry.MustRegister(NewSomethin
 
 The `[name].go` collector implements Prometheus' Collector interface: `Collect` and `Describe`
 
+## Documentation
+
+https://godoc.org/github.com/DazWilkin/linode-exporter/collector
+
 ## Port Allocation
 
 Registered "Linode Exporter" on Prometheus Wiki's [Default Port Allocations](https://github.com/prometheus/prometheus/wiki/Default-port-allocations#exporters-starting-at-9100) with port 9388.
