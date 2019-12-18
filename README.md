@@ -35,7 +35,7 @@ docker run \
 --interactive \
 --tty \
 --publish=${PORT}:${PORT} \
-dazwilkin/linode-exporter:0e4f56babde7b13aaec9abbb3585c9a0e188572d \
+dazwilkin/linode-exporter:2efa4e07162b4a5255c181b1d6c52bd305dc656a \
   --linode_token=${LINODE_TOKEN}
 ```
 
@@ -59,9 +59,10 @@ And logs for a specific service using, e.g.:
 docker-compose logs linode-exporter
 ```
 The following endpoints are exposed:
-+ exporter's metrics: `http://localhost:9388/metrics`
-+ prometheus UI: `http://localhost:9090`
-+ cAdvisor UI: `http://locahost:8085` 
++ Linode-Exporter metrics: `http://localhost:9388/metrics`
++ Prometheus UI: `http://localhost:9090`
++ AlertManager UI: `http://localhost:9093`
++ cAdvisor UI: `http://localhost:8085` 
 
 **NB** cAdvisor is mapped to `:8085` rather than it's default port `:8080`
 
