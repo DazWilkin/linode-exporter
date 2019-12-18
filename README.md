@@ -35,7 +35,7 @@ docker run \
 --interactive \
 --tty \
 --publish=${PORT}:${PORT} \
-dazwilkin/linode-exporter:2efa4e07162b4a5255c181b1d6c52bd305dc656a \
+dazwilkin/linode-exporter:3a761d146493f45b13bdb260a0238e6f5b98330b \
   --linode_token=${LINODE_TOKEN}
 ```
 
