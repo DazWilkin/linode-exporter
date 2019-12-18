@@ -1,6 +1,16 @@
 global:
-  scrape_interval: 1m
+  scrape_interval: 5m
   evaluation_interval: 1m
+
+rule_files:
+  - "/etc/alertmanager/rules/linode.yml"
+
+alerting:
+  alertmanagers:
+    - scheme: http
+      static_configs:
+        - targets:
+            - "alertmanager:9093"
 
 scrape_configs:
   # Self
@@ -11,6 +21,7 @@ scrape_configs:
 
   # Linode Exporter
   - job_name: "linode-exporter"
+    scrape_interval: 15m # Reduced frequency for Linode
     static_configs:
       - targets:
           - "linode-exporter:9388"

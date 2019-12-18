@@ -1,0 +1,17 @@
+groups:
+  - name: linode
+    rules:
+      - alert: LinodeInstances
+        expr: linode_instance_count > 0
+        for: 10m
+        labels:
+          severity: page
+        annotations:
+          summary: Linode Instances running
+      - alert: LinodeNodeBalancers
+        expr: linode_nodebalancer_count > 0
+        for: 10m
+        labels:
+          severity: page
+        annotations:
+          summary: Linode NodeBalancers running

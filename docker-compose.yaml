@@ -25,14 +25,28 @@ services:
     image: prom/prometheus:v2.14.0
     container_name: prometheus
     volumes:
-      - "${PWD}/prometheus.yml:/etc/prometheus/prometheus.yml"
+      - ${PWD}/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ${PWD}/rules.linode.yml:/etc/alertmanager/rules/linode.yml
     expose:
       - "9090"
     ports:
       - 9090:9090
 
+  alertmanager:
+    restart: always
+    depends_on:
+      - prometheus
+    image: prom/alertmanager:v0.20.0
+    container_name: alertmanager
+    volumes:
+      - ${PWD}/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    expose:
+      - "9093"
+    ports:
+      - 9093:9093
+
   linode-exporter:
-    image: dazwilkin/linode-exporter:0e4f56babde7b13aaec9abbb3585c9a0e188572d
+    image: dazwilkin/linode-exporter:2efa4e07162b4a5255c181b1d6c52bd305dc656a
     container_name: linode-exporter
     command:
       - --linode_token=${LINODE_TOKEN}
