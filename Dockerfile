@@ -7,11 +7,13 @@ ARG COMMIT=""
 
 WORKDIR /linode-exporter
 
-# Local go.mod includes: replace github.com/linode/linodego => .../linodego
+# TODO(dazwilkin) Local go.mod includes: replace github.com/linode/linodego => .../linodego
 RUN echo "module github.com/DazWilkin/linode-exporter\ngo 1.13\nrequire (\n)\n" > ./go.mod
 
 COPY main.go .
 COPY collector ./collector
+# TODO(dazwilkin) remove this
+COPY mock ./mock
 
 RUN CGO_ENABLED=0 GOOS=linux \
     go build \
