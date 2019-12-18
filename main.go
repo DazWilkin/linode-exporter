@@ -17,8 +17,9 @@ import (
 )
 
 var (
-	// Injected during build using ldflags
+	// GitCommit expected to be set during build and contain the git commit value
 	GitCommit string
+	// OSVersion expected to be set during build and contain the OS version (uname --kernel-release)
 	OSVersion string
 )
 var (
@@ -38,6 +39,14 @@ func main() {
 	if *token == "" {
 		log.Fatal("Provide Linode API Token")
 	}
+
+	if GitCommit == "" {
+		log.Println("[main] GitCommit value unchanged: expected to be set during build")
+	}
+	if OSVersion == "" {
+		log.Println("[main] OSVersion value unchanged: expected to be set during build")
+	}
+
 	source := oauth2.StaticTokenSource(&oauth2.Token{
 		AccessToken: *token,
 	})
