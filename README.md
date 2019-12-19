@@ -6,6 +6,10 @@ Thanks [metalmatze](https://github.com/metalmatze)!
 
 ![](images/linode_instance_count.png)
 
+## References
+
++ [Linode Exporter](https://pretired.dazwilkin.com/posts/191218/)
+
 ## Development Installation
 
 ```bash
