@@ -46,7 +46,7 @@ services:
       - 9093:9093
 
   linode-exporter:
-    image: dazwilkin/linode-exporter:3a761d146493f45b13bdb260a0238e6f5b98330b
+    image: dazwilkin/linode-exporter:96340d6d87e8310450bff8b1734a970755ff7430
     container_name: linode-exporter
     command:
       - --linode_token=${LINODE_TOKEN}
