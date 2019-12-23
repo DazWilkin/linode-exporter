@@ -86,7 +86,7 @@ func (c *NodeBalancerCollector) Collect(ch chan<- prometheus.Metric) {
 			labelValues := []string{
 				fmt.Sprintf("%d", nb.ID),
 				*nb.Label,
-				//TODO(dazwilkin) NodeBalanacer includes Tags too but these appear not key=value pairs
+				//TODO(dazwilkin) NodeBalancer includes Tags too but these appear not key=value pairs
 				nb.Region,
 			}
 			// nb.Transfer.[Total|Out|In] may be nil; only report these values when non-nil
@@ -113,21 +113,6 @@ func (c *NodeBalancerCollector) Collect(ch chan<- prometheus.Metric) {
 					*nb.Transfer.In,
 					labelValues...,
 				)
-			}
-
-			//TODO(dazwilkin) GetNodeBalancerStats is not implemented
-			stats, err := c.client.GetNodeBalancerStats(ctx, nodebalancer.ID)
-			if err != nil {
-				log.Println(err)
-			}
-			{
-				ts := NewTimeSeries(stats.Data.Traffic.In)
-				log.Printf("[NodeBalancerCollector:Collect:go] NodeBalancer Traffic Rx -- Min=%f Max=%f Avg=%f", ts.Min(), ts.Max(), ts.Avg())
-			}
-			{
-				ts := NewTimeSeries(stats.Data.Traffic.Out)
-				log.Printf("[NodeBalancerCollector:Collect:go] NodeBalancer Traffic Tx -- Min=%f Max=%f Avg=%f", ts.Min(), ts.Max(), ts.Avg())
-
 			}
 
 		}(nodebalancer)
