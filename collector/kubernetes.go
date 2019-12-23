@@ -28,7 +28,7 @@ func NewKubernetesCollector(client linodego.Client) *KubernetesCollector {
 		client: client,
 
 		Up: prometheus.NewDesc(
-			fqName("count"),
+			fqName("up"),
 			"Status of Kubernetes cluster",
 			[]string{"id", "label", "region", "version"},
 			nil,
