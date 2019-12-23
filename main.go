@@ -41,10 +41,10 @@ func main() {
 	}
 
 	if GitCommit == "" {
-		log.Println("[main] GitCommit value unchanged: expected to be set during build")
+		log.Println("[main] GitCommit value unset (\"\"); expected to be set during build")
 	}
 	if OSVersion == "" {
-		log.Println("[main] OSVersion value unchanged: expected to be set during build")
+		log.Println("[main] OSVersion value (\"\"); expected to be set during build")
 	}
 
 	source := oauth2.StaticTokenSource(&oauth2.Token{
@@ -62,6 +62,9 @@ func main() {
 	registry.MustRegister(collector.NewAccountCollector(client))
 	registry.MustRegister(collector.NewExporterCollector(client, OSVersion, GitCommit))
 	registry.MustRegister(collector.NewInstanceCollector(client))
+	//TODO(dazwilkin) LKE is not currently implemented by linodego
+	// The Collector uses mock.LKECluster, mock.LKEClusterPool etc. and so doesn't work correctly
+	// registry.MustRegister(collector.NewKubernetesCollector(client))
 	registry.MustRegister(collector.NewNodeBalancerCollector(client))
 	registry.MustRegister(collector.NewTicketCollector(client))
 
