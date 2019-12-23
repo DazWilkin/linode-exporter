@@ -2,8 +2,8 @@ package collector
 
 import (
 	"context"
-	"fmt"
 	"log"
+	"strconv"
 	"sync"
 
 	"github.com/linode/linodego"
@@ -79,7 +79,7 @@ func (c *InstanceCollector) Collect(ch chan<- prometheus.Metric) {
 			defer wg.Done()
 			log.Printf("[InstanceCollector:Collect:go] Linode ID (%d)", i.ID)
 			labelValues := []string{
-				fmt.Sprintf("%d", i.ID),
+				strconv.Itoa(i.ID),
 				i.Label,
 				i.Region,
 			}
