@@ -39,7 +39,7 @@ docker run \
 --interactive \
 --tty \
 --publish=${PORT}:${PORT} \
-dazwilkin/linode-exporter:6c5e9cde75c82aad571369724b13c607976cd313 \
+dazwilkin/linode-exporter:96340d6d87e8310450bff8b1734a970755ff7430 \
   --linode_token=${LINODE_TOKEN}
 ```
 
@@ -76,28 +76,23 @@ The full list is below.
 
 ## Metrics
 
-| Name                                       | Type  | Description
-| ----                                       | ----  | -----------
-| `linode_account_balance`                     | Gauge ||
-| `linode_account_uninvoiced`                  | Gauge ||
-| `linode_exporter_up`                         | Counter | A metric with a constant value of '1' labeled with go, OS and the exporter versions |
-| `linode_instance_count`                      | Gauge ||
-| `linode_instance_cpu_average_utilization`    | Gauge ||
-| `linode_instance_cpu_max_utilization`        | Gauge ||
-| `linode_instance_io_total_blocks`            | Gauge ||
-| `linode_instance_io_average_blocks`          | Gauge ||
-| `linode_instance_swap_total_blocks`          | Gauge ||
-| `linode_instance_swap_average_blocks`        | Gauge ||
-| `linode_instance_ipv4_total_bits_received`   | Gauge ||
-| `linode_instance_ipv4_average_bits_received` | Gauge ||
-| `linode_instance_ipv4_total_bits_sent`       | Gauge ||
-| `linode_instance_ipv4_average_bits_sent`     | Gauge ||
-| `linode_instance_cpu_max_utilization`        | Gauge ||
-| `linode_nodebalancer_count`                  | Gauge ||
-| `linode_nodebalancer_transfer_total_bytes`   | Gauge ||
-| `linode_nodebalancer_transfer_out_bytes`     | Gauge ||
-| `linode_nodebalancer_transfer_in_bytes`      | Gauge ||
-| `linode_tickets_count`                       | Gauge ||
+| Name                                         | Type    | Description
+| ----                                         | ----    | -----------
+| `linode_account_balance`                     | Gauge   |
+| `linode_account_uninvoiced`                  | Gauge   |
+| `linode_exporter_up`                         | Counter | A metric with a constant value of '1' labeled with go, OS and the exporter versions
+| `linode_instance_up`                         | Counter |
+| `linode_instance_disk`                       | Gauge   |
+| `linode_instance_memory`                     | Gauge   |
+| `linode_instance_cpus`                       | Gauge   |
+| `linode_kubernetes_up`                       | Counter |
+| `linode_kubernetes_pool`                     | Counter |
+| `linode_kubernetes_linode_up`                | Counter |
+| `linode_nodebalancer_count`                  | Gauge   |
+| `linode_nodebalancer_transfer_total_bytes`   | Gauge   |
+| `linode_nodebalancer_transfer_out_bytes`     | Gauge   |
+| `linode_nodebalancer_transfer_in_bytes`      | Gauge   |
+| `linode_tickets_count`                       | Gauge   |
 
 Please file issues and feature requests
 
