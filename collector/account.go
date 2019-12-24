@@ -42,8 +42,7 @@ func NewAccountCollector(client linodego.Client) *AccountCollector {
 // Collect implements Collector interface and is called by Prometheus to collect metrics
 func (c *AccountCollector) Collect(ch chan<- prometheus.Metric) {
 	log.Println("[AccountCollector:Collect] Entered")
-	ctx, cancel := context.WithTimeout(context.Background(), timeout)
-	defer cancel()
+	ctx := context.Background()
 
 	account, err := c.client.GetAccount(ctx)
 	if err != nil {

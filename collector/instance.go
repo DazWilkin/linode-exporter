@@ -60,8 +60,7 @@ func NewInstanceCollector(client linodego.Client) *InstanceCollector {
 // Collect implements Collector interface and is called by Prometheus to collect metrics
 func (c *InstanceCollector) Collect(ch chan<- prometheus.Metric) {
 	log.Println("[InstanceCollector:Collect] Entered")
-	ctx, cancel := context.WithTimeout(context.Background(), timeout)
-	defer cancel()
+	ctx := context.Background()
 
 	instances, err := c.client.ListInstances(ctx, nil)
 	if err != nil {

@@ -36,8 +36,7 @@ func NewTicketCollector(client linodego.Client) *TicketCollector {
 // Collect implements Collector interface and is called by Prometheus to collect metrics
 func (c *TicketCollector) Collect(ch chan<- prometheus.Metric) {
 	log.Println("[TicketCollector:Collect] Entered")
-	ctx, cancel := context.WithTimeout(context.Background(), timeout)
-	defer cancel()
+	ctx := context.Background()
 
 	tickets, err := c.client.ListTickets(ctx, nil)
 	if err != nil {

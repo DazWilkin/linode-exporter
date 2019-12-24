@@ -51,8 +51,7 @@ func NewKubernetesCollector(client linodego.Client) *KubernetesCollector {
 // Collect implements Collector interface and is called by Prometheus to collect metrics
 func (c *KubernetesCollector) Collect(ch chan<- prometheus.Metric) {
 	log.Println("[KubernetesCollector:Collect] Entered")
-	ctx, cancel := context.WithTimeout(context.Background(), timeout)
-	defer cancel()
+	ctx := context.Background()
 
 	// clusters, err := c.client.ListLKEClusters(ctx, nil)
 	clusters, err := mock.NewClient().ListLKEClusters(ctx, nil)

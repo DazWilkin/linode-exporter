@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/DazWilkin/linode-exporter/collector"
 
@@ -14,6 +15,10 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	"golang.org/x/oauth2"
+)
+
+const (
+	timeout = 60 * time.Second
 )
 
 var (
@@ -70,7 +75,9 @@ func main() {
 
 	mux := http.NewServeMux()
 	mux.Handle("/", http.HandlerFunc(rootHandler))
-	mux.Handle(*metricsPath, promhttp.HandlerFor(registry, promhttp.HandlerOpts{}))
+	mux.Handle(*metricsPath, promhttp.HandlerFor(registry, promhttp.HandlerOpts{
+		Timeout: timeout,
+	}))
 
 	log.Printf("[main] Server starting (%s)", *endpoint)
 	log.Printf("[main] metrics served on: %s", *metricsPath)

@@ -58,8 +58,7 @@ func NewNodeBalancerCollector(client linodego.Client) *NodeBalancerCollector {
 // Collect implements Collector interface and is called by Prometheus to collect metrics
 func (c *NodeBalancerCollector) Collect(ch chan<- prometheus.Metric) {
 	log.Println("[NodeBalancerCollector:Collect] Entered")
-	ctx, cancel := context.WithTimeout(context.Background(), timeout)
-	defer cancel()
+	ctx := context.Background()
 
 	nodebalancers, err := c.client.ListNodeBalancers(ctx, nil)
 	if err != nil {
