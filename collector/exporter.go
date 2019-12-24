@@ -21,12 +21,12 @@ type ExporterCollector struct {
 // NewExporterCollector creates an ExporterCollector
 func NewExporterCollector(client linodego.Client, osVersion, gitCommit string) *ExporterCollector {
 	log.Println("[NewExporterCollector] Entered")
-	fqName := name("exporter")
+	subsystem := "exporter"
 	labelKeys := []string{"goVersion", "osVersion", "exporterCommit"}
 	return &ExporterCollector{
 		client: client,
 		Up: prometheus.NewDesc(
-			fqName("info"),
+			prometheus.BuildFQName(namespace, subsystem, "info"),
 			"A metric with a constant value of '1' labeled with go, OS and the exporter versions",
 			labelKeys,
 			nil,

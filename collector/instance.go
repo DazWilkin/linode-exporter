@@ -25,31 +25,31 @@ type InstanceCollector struct {
 // NewInstanceCollector creates an InstanceCollector
 func NewInstanceCollector(client linodego.Client) *InstanceCollector {
 	log.Println("[NewInstanceCollector] Entered")
-	fqName := name("instance")
+	subsystem := "instance"
 	labelKeys := []string{"id", "label", "region"}
 	return &InstanceCollector{
 		client: client,
 
 		Up: prometheus.NewDesc(
-			fqName("up"),
+			prometheus.BuildFQName(namespace, subsystem, "up"),
 			"Status of Linode",
 			labelKeys,
 			nil,
 		),
 		Disk: prometheus.NewDesc(
-			fqName("disk"),
+			prometheus.BuildFQName(namespace, subsystem, "disk"),
 			"The amount of disk space in MB",
 			labelKeys,
 			nil,
 		),
 		Memory: prometheus.NewDesc(
-			fqName("cpu_max_utilization"),
+			prometheus.BuildFQName(namespace, subsystem, "cpu_max_utilization"),
 			"The amount of RAM in MB",
 			labelKeys,
 			nil,
 		),
 		CPUs: prometheus.NewDesc(
-			fqName("io_total_blocks"),
+			prometheus.BuildFQName(namespace, subsystem, "io_total_blocks"),
 			"The number of vCPUs",
 			labelKeys,
 			nil,

@@ -19,19 +19,19 @@ type AccountCollector struct {
 // NewAccountCollector creates an AccountCollector
 func NewAccountCollector(client linodego.Client) *AccountCollector {
 	log.Println("[NewAccountCollector] Entered")
-	name := func(s string) string { return prefix + "_account_" + s }
+	subsystem := "account"
 	labelKeys := []string{"company", "email"}
 	return &AccountCollector{
 		client: client,
 
 		Balance: prometheus.NewDesc(
-			name("balance"),
+			prometheus.BuildFQName(namespace, subsystem, "balance"),
 			"Balance of account",
 			labelKeys,
 			nil,
 		),
 		// Uninvoiced: prometheus.NewDesc(
-		// 	name("uninvoiced"),
+		// 	prometheus.BuildFQName(namespace, subsystem, "uninvoiced"),
 		// 	"Uninvoiced balance of account",
 		// 	labelKeys,
 		// 	nil,

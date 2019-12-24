@@ -23,24 +23,24 @@ type KubernetesCollector struct {
 // NewKubernetesCollector creates a KubernetesCollector
 func NewKubernetesCollector(client linodego.Client) *KubernetesCollector {
 	log.Println("[NewKubernetesCollector] Entered")
-	fqName := name("kubernetes")
+	subsystem := "kubernetes"
 	return &KubernetesCollector{
 		client: client,
 
 		Up: prometheus.NewDesc(
-			fqName("up"),
+			prometheus.BuildFQName(namespace, subsystem, "up"),
 			"Status of Kubernetes cluster",
 			[]string{"id", "label", "region", "version"},
 			nil,
 		),
 		Pool: prometheus.NewDesc(
-			fqName("pool"),
+			prometheus.BuildFQName(namespace, subsystem, "pool"),
 			"Size of Kubernetes node pool",
 			[]string{"cluster_id", "id", "type"},
 			nil,
 		),
 		Linode: prometheus.NewDesc(
-			fqName("linode_up"),
+			prometheus.BuildFQName(namespace, subsystem, "linode_up"),
 			"Status of Kubernetes node pool Linode",
 			[]string{"cluster_id", "pool_id", "id", "status"},
 			nil,
