@@ -67,11 +67,10 @@ func main() {
 	registry.MustRegister(collector.NewAccountCollector(client))
 	registry.MustRegister(collector.NewExporterCollector(client, OSVersion, GitCommit))
 	registry.MustRegister(collector.NewInstanceCollector(client))
-	//TODO(dazwilkin) LKE is not currently implemented by linodego
-	// The Collector uses mock.LKECluster, mock.LKEClusterPool etc. and so doesn't work correctly
-	// registry.MustRegister(collector.NewKubernetesCollector(client))
+	registry.MustRegister(collector.NewKubernetesCollector(client))
 	registry.MustRegister(collector.NewNodeBalancerCollector(client))
 	registry.MustRegister(collector.NewTicketCollector(client))
+	registry.MustRegister(collector.NewVolumeCollector(client))
 
 	mux := http.NewServeMux()
 	mux.Handle("/", http.HandlerFunc(rootHandler))

@@ -6,7 +6,6 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/DazWilkin/linode-exporter/mock"
 	"github.com/linode/linodego"
 	"github.com/prometheus/client_golang/prometheus"
 )
@@ -53,8 +52,7 @@ func (c *KubernetesCollector) Collect(ch chan<- prometheus.Metric) {
 	log.Println("[KubernetesCollector:Collect] Entered")
 	ctx := context.Background()
 
-	// clusters, err := c.client.ListLKEClusters(ctx, nil)
-	clusters, err := mock.NewClient().ListLKEClusters(ctx, nil)
+	clusters, err := c.client.ListLKEClusters(ctx, nil)
 	if err != nil {
 		//TODO(dazwilkin) capture logs
 		log.Println(err)
@@ -64,18 +62,16 @@ func (c *KubernetesCollector) Collect(ch chan<- prometheus.Metric) {
 	var wg sync.WaitGroup
 	for _, cluster := range clusters {
 		wg.Add(1)
-		go func(k mock.LKECluster) {
-			// go func(k linodego.LKECluster) {
+		go func(k linodego.LKECluster) {
 			defer wg.Done()
 			ch <- prometheus.MustNewConstMetric(
 				c.Up,
 				prometheus.CounterValue,
 				1.0,
 				// Label Values
-				string(k.ID), k.Label, k.Region, k.Version,
+				strconv.Itoa(k.ID), k.Label, k.Region, k.K8sVersion,
 			)
-			// pools, err := c.client.ListLKEClusterPools(ctx, k.ID, nil)
-			pools, err := mock.NewClient().ListLKEClusterPools(ctx, k.ID, nil)
+			pools, err := c.client.ListLKEClusterPools(ctx, k.ID, nil)
 			if err != nil {
 				log.Println(err)
 			}
@@ -83,15 +79,14 @@ func (c *KubernetesCollector) Collect(ch chan<- prometheus.Metric) {
 
 			for _, pool := range pools {
 				wg.Add(1)
-				go func(p mock.LKEClusterPool) {
-					// go func(p linodego.LKEClusterPool) {
+				go func(p linodego.LKEClusterPool) {
 					defer wg.Done()
 					ch <- prometheus.MustNewConstMetric(
 						c.Pool,
 						prometheus.GaugeValue,
 						float64(p.Count),
 						// Label Values
-						string(k.ID), string(p.ID), p.Type,
+						strconv.Itoa(k.ID), strconv.Itoa(p.ID), p.Type,
 					)
 					log.Printf("[KubernetesCollector:Collect] Cluster:%d Pool:%d", k.ID, p.ID)
 					for _, l := range p.Linodes {
@@ -100,16 +95,16 @@ func (c *KubernetesCollector) Collect(ch chan<- prometheus.Metric) {
 							prometheus.CounterValue,
 							// Metric will be 1 if LKELinodeReady, 0 otherwise
 							// func(status linodego.LKELinodeStatus) (value float64) {
-							func(status mock.LKELinodeStatus) (value float64) {
+							func(status linodego.LKELinodeStatus) (value float64) {
 								// if status == linodego.LKELinodeReady {
-								if status == mock.LKELinodeReady {
-									log.Printf("[KubernetesCollector:Collect] Cluster:%d Pool:%d Linode:%d (%s)", k.ID, p.ID, l.ID, l.Status)
+								if status == linodego.LKELinodeReady {
+									log.Printf("[KubernetesCollector:Collect] Cluster:%d Pool:%d Linode:%s (%s)", k.ID, p.ID, l.ID, string(l.Status))
 									value = 1.0
 								}
 								return value
 							}(l.Status),
 							// Label Values includes status string
-							strconv.Itoa(k.ID), strconv.Itoa(p.ID), strconv.Itoa(*l.ID), string(l.Status),
+							strconv.Itoa(k.ID), strconv.Itoa(p.ID), l.ID, string(l.Status),
 						)
 					}
 				}(pool)
