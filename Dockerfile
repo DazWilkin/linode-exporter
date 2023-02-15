@@ -1,6 +1,6 @@
 ARG GOLANG_VERSION=1.20
 
-FROM golang:${GOLANG_VERSION} as build
+FROM docker.io/golang:${GOLANG_VERSION} as build
 
 ARG VERSION=""
 ARG COMMIT=""
