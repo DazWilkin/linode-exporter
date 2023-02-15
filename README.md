@@ -1,5 +1,7 @@
 # [Prometheus Exporter](https://prometheus.io/docs/instrumenting/exporters/) for [Linode](https://www.linode.com)
 
+[![build](https://github.com/DazWilkin/linode-exporter/actions/workflows/build.yml/badge.svg)](https://github.com/DazWilkin/linode-exporter/actions/workflows/build.yml)
+
 Inspired by and templated from [DigitalOcean Exporter](https://github.com/metalmatze/digitalocean_exporter).
 
 Thanks [metalmatze](https://github.com/metalmatze)!
@@ -19,12 +21,12 @@ Then:
 ```bash
 LINODE_TOKEN=[[YOUR-LINODE-API-TOKEN]]
 ENDPOINT=":9388"
-PATH="/metrics"
+METRICS="/metrics"
 
 go run github.com/DazWilkin/linode-exporter \
 --linode_token=${LINODE_TOKEN} \
 --endpoint=${ENDPOINT} \
---path=${PATH}
+--path=${METRICS}
 ```
 
 ## Run-only Installation
@@ -39,7 +41,7 @@ docker run \
 --interactive \
 --tty \
 --publish=${PORT}:${PORT} \
-dazwilkin/linode-exporter:838e458dcf9eb4b50978ec2b3b4d69d747fee5cf \
+dazwilkin/linode-exporter:f667db8a0e43bfb013798e0c7520b8a3c09f6031 \
   --linode_token=${LINODE_TOKEN}
 ```
 
