@@ -46,7 +46,6 @@ func (c *AccountCollector) Collect(ch chan<- prometheus.Metric) {
 
 	account, err := c.client.GetAccount(ctx)
 	if err != nil {
-		//TODO(dazwilkin) capture logs
 		log.Println(err)
 	}
 

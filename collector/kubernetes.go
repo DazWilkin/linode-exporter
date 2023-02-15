@@ -54,7 +54,6 @@ func (c *KubernetesCollector) Collect(ch chan<- prometheus.Metric) {
 
 	clusters, err := c.client.ListLKEClusters(ctx, nil)
 	if err != nil {
-		//TODO(dazwilkin) capture logs
 		log.Println(err)
 	}
 	log.Printf("[KubernetesCollector:Collect] len(clusters)=%d", len(clusters))
