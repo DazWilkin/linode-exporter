@@ -27,6 +27,6 @@ FROM gcr.io/distroless/base-debian11
 
 LABEL org.opencontainers.image.source https://github.com/DazWilkin/linode-exporter
 
-COPY --from=build /bin/linode-exporter /
+COPY --from=build /bin/exporter /
 
 ENTRYPOINT ["/exporter"]
