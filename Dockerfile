@@ -1,25 +1,32 @@
 ARG GOLANG_VERSION=1.20
+ARG GOLANG_OPTIONS="CGO_ENABLED=0 GOOS=linux GOARCH=amd64"
 
 FROM docker.io/golang:${GOLANG_VERSION} as build
 
-ARG VERSION=""
-ARG COMMIT=""
-
 WORKDIR /linode-exporter
+
+COPY go.mod go.mod
+COPY go.sum go.sum
+
+RUN go mod download
 
 COPY main.go .
 COPY collector ./collector
 
-RUN CGO_ENABLED=0 GOOS=linux \
+ARG VERSION=""
+ARG COMMIT=""
+
+RUN env ${GOLANG_OPTIONS} \
     go build \
     -ldflags "-X main.OSVersion=${VERSION} -X main.GitCommit=${COMMIT}" \
     -a -installsuffix cgo \
-    -o /go/bin/linode-exporter \
+    -o /bin/exporter \
     ./main.go
 
-FROM scratch
+FROM gcr.io/distroless/base-debian11
 
-COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
-COPY --from=build /go/bin/linode-exporter /
+LABEL org.opencontainers.image.source https://github.com/DazWilkin/linode-exporter
 
-ENTRYPOINT ["/linode-exporter"]
+COPY --from=build /bin/linode-exporter /
+
+ENTRYPOINT ["/exporter"]
