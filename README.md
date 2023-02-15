@@ -41,7 +41,7 @@ docker run \
 --interactive \
 --tty \
 --publish=${PORT}:${PORT} \
-dazwilkin/linode-exporter:f667db8a0e43bfb013798e0c7520b8a3c09f6031 \
+ghcr.io/dazwilkin/linode-exporter:f667db8a0e43bfb013798e0c7520b8a3c09f6031 \
   --linode_token=${LINODE_TOKEN}
 ```
 
@@ -94,6 +94,7 @@ The full list is below.
 | `linode_nodebalancer_transfer_total_bytes`   | Gauge   |
 | `linode_nodebalancer_transfer_out_bytes`     | Gauge   |
 | `linode_nodebalancer_transfer_in_bytes`      | Gauge   |
+| `linode_volume_up`                           | Counter |
 | `linode_tickets_count`                       | Gauge   |
 
 Please file issues and feature requests
