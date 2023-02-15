@@ -14,7 +14,7 @@ import (
 type NodeBalancerCollector struct {
 	client linodego.Client
 
-	Count         *prometheus.Desc
+	Up            *prometheus.Desc
 	TransferTotal *prometheus.Desc
 	TransferOut   *prometheus.Desc
 	TransferIn    *prometheus.Desc
@@ -28,9 +28,9 @@ func NewNodeBalancerCollector(client linodego.Client) *NodeBalancerCollector {
 	return &NodeBalancerCollector{
 		client: client,
 
-		Count: prometheus.NewDesc(
-			prometheus.BuildFQName(namespace, subsystem, "count"),
-			"Number of NodeBalancers",
+		Up: prometheus.NewDesc(
+			prometheus.BuildFQName(namespace, subsystem, "up"),
+			"Status of NodeBalancer",
 			labelKeys,
 			nil,
 		),
@@ -62,22 +62,14 @@ func (c *NodeBalancerCollector) Collect(ch chan<- prometheus.Metric) {
 
 	nodebalancers, err := c.client.ListNodeBalancers(ctx, nil)
 	if err != nil {
-		//TODO(dazwilkin) capture logs: Loki?
 		log.Println(err)
 	}
 	log.Printf("[NodeBalancerCollector:Collect] len(nodebalancers)=%d", len(nodebalancers))
 
-	ch <- prometheus.MustNewConstMetric(
-		c.Count,
-		prometheus.GaugeValue,
-		float64(len(nodebalancers)),
-		//TODO(dazwilkin) What metrics labels to use for this type of aggregate?
-		[]string{"", "", ""}...,
-	)
-
 	var wg sync.WaitGroup
 	for _, nodebalancer := range nodebalancers {
 		log.Printf("[NodeBalancerCollector:Collect] NodeBalancer ID (%d)", nodebalancer.ID)
+
 		wg.Add(1)
 		go func(nb linodego.NodeBalancer) {
 			defer wg.Done()
@@ -88,6 +80,14 @@ func (c *NodeBalancerCollector) Collect(ch chan<- prometheus.Metric) {
 				//TODO(dazwilkin) NodeBalancer includes Tags too but these appear not key=value pairs
 				nb.Region,
 			}
+
+			ch <- prometheus.MustNewConstMetric(
+				c.Up,
+				prometheus.GaugeValue,
+				1.0,
+				labelValues...,
+			)
+
 			// nb.Transfer.[Total|Out|In] may be nil; only report these values when non-nil
 			if nb.Transfer.Total != nil {
 				ch <- prometheus.MustNewConstMetric(
@@ -123,7 +123,7 @@ func (c *NodeBalancerCollector) Collect(ch chan<- prometheus.Metric) {
 // Describe implements Collector interface and is called by Prometheus to describe metrics
 func (c *NodeBalancerCollector) Describe(ch chan<- *prometheus.Desc) {
 	log.Println("[NodeBalancerCollector:Describe] Entered")
-	ch <- c.Count
+	ch <- c.Up
 	ch <- c.TransferTotal
 	ch <- c.TransferOut
 	ch <- c.TransferIn
