@@ -39,7 +39,7 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Actions"
 
-          for FILENAME in "./docker-compose.yml" "./kubernetes.yaml" "./README.md"
+          for FILENAME in "./docker-compose.yaml" "./README.md"
           do
             sed \
             --in-place \
