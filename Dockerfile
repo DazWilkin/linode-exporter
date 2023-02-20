@@ -23,7 +23,7 @@ RUN env ${GOLANG_OPTIONS} \
     -o /bin/exporter \
     ./main.go
 
-FROM gcr.io/distroless/base-debian11
+FROM gcr.io/distroless/static
 
 LABEL org.opencontainers.image.source https://github.com/DazWilkin/linode-exporter
 
