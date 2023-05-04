@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/linode/linodego v1.16.1
-	github.com/prometheus/client_golang v1.15.0
+	github.com/prometheus/client_golang v1.15.1
 	golang.org/x/oauth2 v0.7.0
 )
 
