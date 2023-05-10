@@ -13,8 +13,8 @@ github.com/golang/protobuf v1.5.3 h1:KhyjKVUg7Usr/dYsdSqoFveMYd5ko72D+zANwlG1mmg
 github.com/golang/protobuf v1.5.3/go.mod h1:XVQd3VNwM+JqD3oG2Ue2ip4fOMUkwXdXDdiuN0vRsmY=
 github.com/google/go-cmp v0.5.5/go.mod h1:v8dTdLbMG2kIc/vJvl+f65V22dbkXbowE6jgT/gNBxE=
 github.com/google/go-cmp v0.5.9 h1:O2Tfq5qg4qc4AmwVlvv0oLiVAGB7enBSJ2x2DqQFi38=
-github.com/linode/linodego v1.16.1 h1:5otq57M4PdHycPERRfSFZ0s1yz1ETVWGjCp3hh7+F9w=
-github.com/linode/linodego v1.16.1/go.mod h1:aESRAbpLY9R6IA1WGAWHikRI9DU9Lhesapv1MhKmPHM=
+github.com/linode/linodego v1.16.2 h1:LwtCQxEvXu57zn1c+0kH5jh/xUnv3YBYYFhHWyohlbk=
+github.com/linode/linodego v1.16.2/go.mod h1:n4KKMzPcmZ18qOdYzixRXTPmBv3r4KkVu4pNT6pIN5M=
 github.com/matttproud/golang_protobuf_extensions v1.0.4 h1:mmDVorXM7PCGKw94cs5zkfA9PSy5pEvNWRP0ET0TIVo=
 github.com/matttproud/golang_protobuf_extensions v1.0.4/go.mod h1:BSXmuO+STAnVfrANrmjBb36TMTDstsz7MSK+HVaYKv4=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
