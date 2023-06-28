@@ -1,7 +1,5 @@
 package mock
 
-import ()
-
 // Client is a mock implementation of linodego.Client
 type Client struct{}
 
