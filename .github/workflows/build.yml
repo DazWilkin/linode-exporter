@@ -22,9 +22,10 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GHCR }}
-      - name: Get kernel version
+      - name: get-version
         run: echo "VERSION=$(uname --kernel-release)" >> ${GITHUB_ENV}
-      - name: build-push
+      - name: docker-build-push
+        id: docker-build-push
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -34,7 +35,23 @@ jobs:
             COMMIT=${{ github.sha }}
           tags: ghcr.io/${{ env.REPO }}:${{ github.sha }}
           push: true
-      - name: revise occurrences of the image
+      - name: install-cosign
+        uses: sigstore/cosign-installer@main
+      - name: write-key
+        run: echo "${{ secrets.SIGNING }}" > ./cosign.key
+      - name: sign-image
+        run: |
+          cosign sign \
+          --yes \
+          --key=./cosign.key \
+          --annotations="repo=${{ github.repository }}" \
+          --annotations="workflow=${{ github.workflow }}" \
+          --annotations="commit=${{ github.sha }}" \
+          --annotations="version=${{ env.VERSION }}" \
+          ghcr.io/${{ env.REPO }}@${{ steps.docker-build-push.outputs.digest }}
+        env:
+          COSIGN_PASSWORD: ""
+      - name: revise-docs
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Actions"

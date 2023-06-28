@@ -1,0 +1,11 @@
+# No debug
+.vscode/*
+
+# Includes secret!!
+alertmanager.yml
+
+# Development-only
+test/*
+
+# Cosign key
+cosign.key

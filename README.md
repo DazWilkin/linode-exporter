@@ -114,3 +114,24 @@ https://godoc.org/github.com/DazWilkin/linode-exporter/collector
 ## Port Allocation
 
 Registered "Linode Exporter" on Prometheus Wiki's [Default Port Allocations](https://github.com/prometheus/prometheus/wiki/Default-port-allocations#exporters-starting-at-9100) with port 9388.
+
+## Sigstore
+
+`linode-exporter` container images are being signed by [Sigstore](https://www.sigstore.dev/) and may be verified:
+
+```bash
+cosign verify \
+--key=./cosign.pub \
+ghcr.io/dazwilkin/linode-exporter:579315c3cc90a49944fb01a6edf7caddb4449850
+```
+
+> **NOTE** `cosign.pub` may be downloaded from [here](./cosign.pub)
+
+To install|update `cosign`:
+```bash
+go install github.com/sigstore/cosign/cmd/cosign@latest
+```
+
+<hr/>
+<br/>
+<a href="https://www.buymeacoffee.com/dazwilkin" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
