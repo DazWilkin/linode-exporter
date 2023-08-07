@@ -42,7 +42,7 @@ docker run \
 --interactive \
 --tty \
 --publish=${PORT}:${PORT} \
-ghcr.io/dazwilkin/linode-exporter:9c39401916cc267a727c82e4e0f25fee5757f6c8 \
+ghcr.io/dazwilkin/linode-exporter:8326ec32eb2d6d5f5a5dff013b42e77b0e1f3437 \
   --linode_token=${LINODE_TOKEN}
 ```
 
@@ -123,7 +123,7 @@ Registered "Linode Exporter" on Prometheus Wiki's [Default Port Allocations](htt
 ```bash
 cosign verify \
 --key=./cosign.pub \
-ghcr.io/dazwilkin/linode-exporter:9c39401916cc267a727c82e4e0f25fee5757f6c8
+ghcr.io/dazwilkin/linode-exporter:8326ec32eb2d6d5f5a5dff013b42e77b0e1f3437
 ```
 
 > **NOTE** `cosign.pub` may be downloaded from [here](./cosign.pub)
