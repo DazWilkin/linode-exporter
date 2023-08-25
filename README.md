@@ -1,6 +1,7 @@
 # [Prometheus Exporter](https://prometheus.io/docs/instrumenting/exporters/) for [Linode](https://www.linode.com)
 
 [![build](https://github.com/DazWilkin/linode-exporter/actions/workflows/build.yml/badge.svg)](https://github.com/DazWilkin/linode-exporter/actions/workflows/build.yml)
+[![Go Reference](https://pkg.go.dev/badge/github.com/DazWilkin/linode-exporter.svg)](https://pkg.go.dev/github.com/DazWilkin/linode-exporter)
 [![Go Report Card](https://goreportcard.com/badge/github.com/DazWilkin/linode-exporter)](https://goreportcard.com/report/github.com/DazWilkin/linode-exporter)
 
 Inspired by and templated from [DigitalOcean Exporter](https://github.com/metalmatze/digitalocean_exporter).
