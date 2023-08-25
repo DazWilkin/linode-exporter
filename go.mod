@@ -1,6 +1,6 @@
 module github.com/DazWilkin/linode-exporter
 
-go 1.20
+go 1.21.0
 
 require (
 	github.com/linode/linodego v1.20.1
