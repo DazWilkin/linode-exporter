@@ -3,7 +3,7 @@ module github.com/DazWilkin/linode-exporter
 go 1.21.0
 
 require (
-	github.com/linode/linodego v1.25.0
+	github.com/linode/linodego v1.26.0
 	github.com/prometheus/client_golang v1.17.0
 	golang.org/x/oauth2 v0.15.0
 )
@@ -13,7 +13,6 @@ require (
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/go-resty/resty/v2 v2.10.0 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
-	github.com/matttproud/golang_protobuf_extensions v1.0.4 // indirect
 	github.com/matttproud/golang_protobuf_extensions/v2 v2.0.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/prometheus/client_model v0.5.0 // indirect
