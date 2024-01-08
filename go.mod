@@ -11,7 +11,7 @@ require (
 require (
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
-	github.com/go-resty/resty/v2 v2.10.0 // indirect
+	github.com/go-resty/resty/v2 v2.11.0 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/matttproud/golang_protobuf_extensions/v2 v2.0.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
