@@ -67,6 +67,7 @@ func main() {
 	registry.MustRegister(collector.NewAccountCollector(client))
 	registry.MustRegister(collector.NewExporterCollector(client, OSVersion, GitCommit))
 	registry.MustRegister(collector.NewInstanceCollector(client))
+	registry.MustRegister(collector.NewInstanceStatsCollector(client))
 	registry.MustRegister(collector.NewKubernetesCollector(client))
 	registry.MustRegister(collector.NewNodeBalancerCollector(client))
 	registry.MustRegister(collector.NewTicketCollector(client))
