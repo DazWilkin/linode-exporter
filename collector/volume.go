@@ -41,6 +41,7 @@ func (c *VolumeCollector) Collect(ch chan<- prometheus.Metric) {
 	volumes, err := c.client.ListVolumes(ctx, nil)
 	if err != nil {
 		log.Println(err)
+		return
 	}
 	log.Printf("[VolumeCollector:Collect] len(volumes)=%d", len(volumes))
 
