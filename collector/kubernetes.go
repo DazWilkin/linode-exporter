@@ -70,7 +70,7 @@ func (c *KubernetesCollector) Collect(ch chan<- prometheus.Metric) {
 				// Label Values
 				strconv.Itoa(k.ID), k.Label, k.Region, k.K8sVersion,
 			)
-			pools, err := c.client.ListLKEClusterPools(ctx, k.ID, nil)
+			pools, err := c.client.ListLKENodePools(ctx, k.ID, nil)
 			if err != nil {
 				log.Println(err)
 			}
@@ -78,7 +78,7 @@ func (c *KubernetesCollector) Collect(ch chan<- prometheus.Metric) {
 
 			for _, pool := range pools {
 				wg.Add(1)
-				go func(p linodego.LKEClusterPool) {
+				go func(p linodego.LKENodePool) {
 					defer wg.Done()
 					ch <- prometheus.MustNewConstMetric(
 						c.Pool,
