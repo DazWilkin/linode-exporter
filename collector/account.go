@@ -12,8 +12,8 @@ import (
 type AccountCollector struct {
 	client linodego.Client
 
-	Balance *prometheus.Desc
-	// Uninvoiced *prometheus.Desc
+	Balance    *prometheus.Desc
+	Uninvoiced *prometheus.Desc
 }
 
 // NewAccountCollector creates an AccountCollector
@@ -30,12 +30,12 @@ func NewAccountCollector(client linodego.Client) *AccountCollector {
 			labelKeys,
 			nil,
 		),
-		// Uninvoiced: prometheus.NewDesc(
-		// 	prometheus.BuildFQName(namespace, subsystem, "uninvoiced"),
-		// 	"Uninvoiced balance of account",
-		// 	labelKeys,
-		// 	nil,
-		// ),
+		Uninvoiced: prometheus.NewDesc(
+			prometheus.BuildFQName(namespace, subsystem, "uninvoiced"),
+			"Uninvoiced balance of account",
+			labelKeys,
+			nil,
+		),
 	}
 }
 
@@ -55,14 +55,12 @@ func (c *AccountCollector) Collect(ch chan<- prometheus.Metric) {
 		float64(account.Balance),
 		[]string{account.Company, account.Email}...,
 	)
-	//TODO(dazwilkin) UnvoicedBalance is not yet implemented by the SDK
-	// https://github.com/linode/linodego/issues/108
-	// ch <- prometheus.MustNewConstMetric(
-	// 	c.Uninvoiced,
-	// 	prometheus.GaugeValue,
-	// 	float64(account.BalanceUninvoiced),
-	// 	[]string{account.Company, account.Email}...,
-	// )
+	ch <- prometheus.MustNewConstMetric(
+		c.Uninvoiced,
+		prometheus.GaugeValue,
+		float64(account.BalanceUninvoiced),
+		[]string{account.Company, account.Email}...,
+	)
 	log.Println("[AccountCollector:Collect] Completes")
 }
 
@@ -70,6 +68,6 @@ func (c *AccountCollector) Collect(ch chan<- prometheus.Metric) {
 func (c *AccountCollector) Describe(ch chan<- *prometheus.Desc) {
 	log.Println("[AccountCollector:Describe] Entered")
 	ch <- c.Balance
-	// ch <- c.Uninvoiced
+	ch <- c.Uninvoiced
 	log.Println("[AccountCollector:Describe] Completes")
 }
