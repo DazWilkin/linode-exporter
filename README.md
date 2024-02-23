@@ -26,7 +26,6 @@ ENDPOINT=":9388"
 METRICS="/metrics"
 
 go run github.com/DazWilkin/linode-exporter \
---linode_token=${LINODE_TOKEN} \
 --endpoint=${ENDPOINT} \
 --path=${METRICS}
 ```
@@ -42,9 +41,9 @@ PORT=9388
 docker run \
 --interactive \
 --tty \
+-e LINODE_TOKEN=${LINODE_TOKEN} \
 --publish=${PORT}:${PORT} \
-ghcr.io/dazwilkin/linode-exporter:b4e6fabbbd64132b4f08a164cfc42365ae859d50 \
-  --linode_token=${LINODE_TOKEN}
+ghcr.io/dazwilkin/linode-exporter:b4e6fabbbd64132b4f08a164cfc42365ae859d50
 ```
 
 The exporter's metrics endpoint will be available on `http://localhost:${PORT}/metrics`
@@ -53,7 +52,7 @@ The exporter's metrics endpoint will be available on `http://localhost:${PORT}/m
 
 **NB** AlertManager integration is a work-in-progress
 
-The following 
+The following
 ```bash
 LINODE_TOKEN=[[LINODE-API-TOKEN]]
 docker-compose --file=${PWD}/docker-compose.yaml up
@@ -70,7 +69,7 @@ The following endpoints are exposed:
 + Linode-Exporter metrics: `http://localhost:9388/metrics`
 + Prometheus UI: `http://localhost:9090`
 + AlertManager UI: `http://localhost:9093`
-+ cAdvisor UI: `http://localhost:8085` 
++ cAdvisor UI: `http://localhost:8085`
 
 **NB** cAdvisor is mapped to `:8085` rather than it's default port `:8080`
 

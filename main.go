@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/DazWilkin/linode-exporter/collector"
@@ -28,7 +29,7 @@ var (
 	OSVersion string
 )
 var (
-	token       = flag.String("linode_token", "", "Linode API Token")
+	token       = flag.String("linode_token", os.Getenv("LINODE_TOKEN"), "Linode API Token")
 	debug       = flag.Bool("debug", false, "Enable Linode REST API debugging")
 	endpoint    = flag.String("endpoint", ":9388", "The endpoint of the HTTP server")
 	metricsPath = flag.String("path", "/metrics", "The path on which Prometheus metrics will be served")
