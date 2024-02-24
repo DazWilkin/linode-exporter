@@ -48,8 +48,6 @@ services:
   linode-exporter:
     image: ghcr.io/dazwilkin/linode-exporter:${TAG}
     container_name: linode-exporter
-    command:
-      - --linode_token=${LINODE_TOKEN}
     expose:
       - "9388" # Linode Exporter port registered on Prometheus Wiki
     ports:

@@ -2,7 +2,6 @@ package collector
 
 import (
 	"context"
-	"fmt"
 	"log"
 
 	"github.com/linode/linodego"
@@ -54,7 +53,7 @@ func (c *TicketCollector) Collect(ch chan<- prometheus.Metric) {
 			prometheus.GaugeValue,
 			count,
 			// linodego.TicketStatus needs a String() method ;-)
-			[]string{fmt.Sprintf("%s", status)}...,
+			[]string{string(status)}...,
 		//[]string{status.String()}...,
 		)
 	}
