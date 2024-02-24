@@ -55,6 +55,7 @@ func (c *KubernetesCollector) Collect(ch chan<- prometheus.Metric) {
 	clusters, err := c.client.ListLKEClusters(ctx, nil)
 	if err != nil {
 		log.Println(err)
+		return
 	}
 	log.Printf("[KubernetesCollector:Collect] len(clusters)=%d", len(clusters))
 
@@ -73,6 +74,7 @@ func (c *KubernetesCollector) Collect(ch chan<- prometheus.Metric) {
 			pools, err := c.client.ListLKEClusterPools(ctx, k.ID, nil)
 			if err != nil {
 				log.Println(err)
+				return
 			}
 			log.Printf("[KubernetesCollector:Collect] Cluster: %d len(nodepools)=%d", k.ID, len(pools))
 

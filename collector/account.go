@@ -47,6 +47,7 @@ func (c *AccountCollector) Collect(ch chan<- prometheus.Metric) {
 	account, err := c.client.GetAccount(ctx)
 	if err != nil {
 		log.Println(err)
+		return
 	}
 
 	ch <- prometheus.MustNewConstMetric(
