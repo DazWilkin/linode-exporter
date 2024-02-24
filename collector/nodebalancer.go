@@ -63,6 +63,7 @@ func (c *NodeBalancerCollector) Collect(ch chan<- prometheus.Metric) {
 	nodebalancers, err := c.client.ListNodeBalancers(ctx, nil)
 	if err != nil {
 		log.Println(err)
+		return
 	}
 	log.Printf("[NodeBalancerCollector:Collect] len(nodebalancers)=%d", len(nodebalancers))
 

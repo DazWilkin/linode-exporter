@@ -40,6 +40,7 @@ func (c *TicketCollector) Collect(ch chan<- prometheus.Metric) {
 	tickets, err := c.client.ListTickets(ctx, nil)
 	if err != nil {
 		log.Println(err)
+		return
 	}
 
 	total := make(map[linodego.TicketStatus]float64)
