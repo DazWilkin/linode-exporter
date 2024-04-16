@@ -95,6 +95,8 @@ The full list is below.
 | `linode_nodebalancer_transfer_total_bytes`   | Gauge   |
 | `linode_nodebalancer_transfer_out_bytes`     | Gauge   |
 | `linode_nodebalancer_transfer_in_bytes`      | Gauge   |
+| `linode_objectstorage_objects_count`         | Gauge   |
+| `linode_objectstorage_size_bytes`            | Gauge   |
 | `linode_volume_up`                           | Counter |
 | `linode_tickets_count`                       | Gauge   |
 

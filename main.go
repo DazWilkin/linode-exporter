@@ -73,6 +73,7 @@ func main() {
 	registry.MustRegister(collector.NewNodeBalancerCollector(client))
 	registry.MustRegister(collector.NewTicketCollector(client))
 	registry.MustRegister(collector.NewVolumeCollector(client))
+	registry.MustRegister(collector.NewObjectStorageCollector(client))
 
 	mux := http.NewServeMux()
 	mux.Handle("/", http.HandlerFunc(rootHandler))
