@@ -43,7 +43,7 @@ docker run \
 --tty \
 -e LINODE_TOKEN=${LINODE_TOKEN} \
 --publish=${PORT}:${PORT} \
-ghcr.io/dazwilkin/linode-exporter:0608f89d41eabf29716cec0ccade48244a77eeb1
+ghcr.io/dazwilkin/linode-exporter:fa6d65c485f3b923c653e9834754c44b53fd3a34
 ```
 
 The exporter's metrics endpoint will be available on `http://localhost:${PORT}/metrics`
@@ -125,7 +125,7 @@ Registered "Linode Exporter" on Prometheus Wiki's [Default Port Allocations](htt
 ```bash
 cosign verify \
 --key=./cosign.pub \
-ghcr.io/dazwilkin/linode-exporter:0608f89d41eabf29716cec0ccade48244a77eeb1
+ghcr.io/dazwilkin/linode-exporter:fa6d65c485f3b923c653e9834754c44b53fd3a34
 ```
 
 > **NOTE** `cosign.pub` may be downloaded from [here](./cosign.pub)
