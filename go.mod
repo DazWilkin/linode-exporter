@@ -3,7 +3,7 @@ module github.com/DazWilkin/linode-exporter
 go 1.24
 
 require (
-	github.com/linode/linodego v1.48.1
+	github.com/linode/linodego v1.49.0
 	github.com/prometheus/client_golang v1.21.1
 	golang.org/x/oauth2 v0.28.0
 )
