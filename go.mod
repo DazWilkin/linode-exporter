@@ -5,7 +5,7 @@ go 1.24
 require (
 	github.com/linode/linodego v1.49.0
 	github.com/prometheus/client_golang v1.21.1
-	golang.org/x/oauth2 v0.28.0
+	golang.org/x/oauth2 v0.29.0
 )
 
 require (
