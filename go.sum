@@ -17,8 +17,8 @@ github.com/klauspost/compress v1.18.0 h1:c/Cqfb0r+Yi+JtIEq73FWXVkRonBlf0CRNYc8Zt
 github.com/klauspost/compress v1.18.0/go.mod h1:2Pp+KzxcywXVXMr50+X0Q/Lsb43OQHYWRCY2AiWywWQ=
 github.com/kylelemons/godebug v1.1.0 h1:RPNrshWIDI6G2gRW9EHilWtl7Z6Sb1BR0xunSBf0SNc=
 github.com/kylelemons/godebug v1.1.0/go.mod h1:9/0rRGxNHcop5bhtWyNeEfOS8JIWk580+fNqagV/RAw=
-github.com/linode/linodego v1.48.1 h1:Ojw1S+K5jJr1dggO8/H6r4FINxXnJbOU5GkbpaTfmhU=
-github.com/linode/linodego v1.48.1/go.mod h1:fc3t60If8X+yZTFAebhCnNDFrhwQhq9HDU92WnBousQ=
+github.com/linode/linodego v1.49.0 h1:MNd3qwvQzbXB5mCpvdCqlUIu1RPA9oC+50LyB9kK+GQ=
+github.com/linode/linodego v1.49.0/go.mod h1:B+HAM3//4w1wOS0BwdaQBKwBxlfe6kYJ7bSC6jJ/xtc=
 github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 h1:C3w9PqII01/Oq1c1nUAm88MOHcQC9l5mIlSMApZMrHA=
 github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822/go.mod h1:+n7T8mK8HuQTcFwEeznm/DIxMOiR9yIdICNftLE1DvQ=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
