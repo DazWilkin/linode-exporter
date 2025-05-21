@@ -4,11 +4,14 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"maps"
 	"net/http"
 	"os"
+	"slices"
+	"strings"
 	"time"
 
-	"github.com/DazWilkin/linode-exporter/collector"
+	"main/collector"
 
 	"github.com/linode/linodego"
 
@@ -29,11 +32,41 @@ var (
 	OSVersion string
 )
 var (
-	token       = flag.String("linode_token", os.Getenv("LINODE_TOKEN"), "Linode API Token")
-	debug       = flag.Bool("debug", false, "Enable Linode REST API debugging")
-	endpoint    = flag.String("endpoint", ":9388", "The endpoint of the HTTP server")
-	metricsPath = flag.String("path", "/metrics", "The path on which Prometheus metrics will be served")
+	token              = flag.String("linode-token", os.Getenv("LINODE_TOKEN"), "Linode API Token")
+	debug              = flag.Bool("debug", false, "Enable Linode REST API debugging")
+	endpoint           = flag.String("endpoint", ":9388", "The endpoint of the HTTP server")
+	metricsPath        = flag.String("path", "/metrics", "The path on which Prometheus metrics will be served")
+	enabledCollectors  = flag.String("collectors", os.Getenv("COLLECTORS"), "Comma-separated list of enabled collectors (default: all)")
+	collectorFactories = map[string]func(linodego.Client) prometheus.Collector{
+		"account": func(c linodego.Client) prometheus.Collector { return collector.NewAccountCollector(c) },
+		"exporter": func(c linodego.Client) prometheus.Collector {
+			return collector.NewExporterCollector(c, OSVersion, GitCommit)
+		},
+		"instance":       func(c linodego.Client) prometheus.Collector { return collector.NewInstanceCollector(c) },
+		"instance_stats": func(c linodego.Client) prometheus.Collector { return collector.NewInstanceStatsCollector(c) },
+		"kubernetes":     func(c linodego.Client) prometheus.Collector { return collector.NewKubernetesCollector(c) },
+		"nodebalancer":   func(c linodego.Client) prometheus.Collector { return collector.NewNodeBalancerCollector(c) },
+		"ticket":         func(c linodego.Client) prometheus.Collector { return collector.NewTicketCollector(c) },
+		"volume":         func(c linodego.Client) prometheus.Collector { return collector.NewVolumeCollector(c) },
+		"objectstorage":  func(c linodego.Client) prometheus.Collector { return collector.NewObjectStorageCollector(c) },
+	}
 )
+
+func enableCollectors(client linodego.Client, registry *prometheus.Registry) {
+	// If no environment variable is set, enable all collectors
+	if *enabledCollectors == "" {
+		*enabledCollectors = strings.Join(slices.Collect(maps.Keys(collectorFactories)), ",")
+	}
+	for _, name := range strings.Split(*enabledCollectors, ",") {
+		name = strings.TrimSpace(name)
+		log.Printf("[getEnabledCollectors] Creating collector %s", name)
+		if factory, exists := collectorFactories[name]; exists {
+			registry.MustRegister(factory(client))
+		} else {
+			log.Printf("[getEnabledCollectors] Collector %s not found", name)
+		}
+	}
+}
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
@@ -65,15 +98,7 @@ func main() {
 	client.SetDebug(*debug)
 
 	registry := prometheus.NewRegistry()
-	registry.MustRegister(collector.NewAccountCollector(client))
-	registry.MustRegister(collector.NewExporterCollector(client, OSVersion, GitCommit))
-	registry.MustRegister(collector.NewInstanceCollector(client))
-	registry.MustRegister(collector.NewInstanceStatsCollector(client))
-	registry.MustRegister(collector.NewKubernetesCollector(client))
-	registry.MustRegister(collector.NewNodeBalancerCollector(client))
-	registry.MustRegister(collector.NewTicketCollector(client))
-	registry.MustRegister(collector.NewVolumeCollector(client))
-	registry.MustRegister(collector.NewObjectStorageCollector(client))
+	enableCollectors(client, registry)
 
 	mux := http.NewServeMux()
 	mux.Handle("/", http.HandlerFunc(rootHandler))
