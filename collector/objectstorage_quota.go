@@ -19,7 +19,7 @@ type ObjectStorageQuotaCollector struct {
 	BucketsLimit *prometheus.Desc
 }
 
-const objectStorageConcurrencyLimit = 5
+const objectStorageConcurrencyLimit = 50
 
 // NewObjectStorageQuotaCollector creates a new ObjectStorageQuotaCollector.
 func NewObjectStorageQuotaCollector(client linodego.Client) *ObjectStorageQuotaCollector {
