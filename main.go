@@ -49,6 +49,9 @@ var (
 		"ticket":         func(c linodego.Client) prometheus.Collector { return collector.NewTicketCollector(c) },
 		"volume":         func(c linodego.Client) prometheus.Collector { return collector.NewVolumeCollector(c) },
 		"objectstorage":  func(c linodego.Client) prometheus.Collector { return collector.NewObjectStorageCollector(c) },
+		"objectstorage_quota": func(c linodego.Client) prometheus.Collector {
+			return collector.NewObjectStorageQuotaCollector(c)
+		},
 	}
 )
 
