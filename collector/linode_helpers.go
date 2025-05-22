@@ -2,8 +2,6 @@ package collector
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
 
 	"github.com/linode/linodego"
 )
@@ -35,12 +33,5 @@ func GetLinodeObjectStorageEndpoints(client linodego.Client, ctx context.Context
 		}
 	}
 
-	// Print the object storage regions as json
-	jsonData, err := json.Marshal(filtered)
-	if err != nil {
-		return nil, err
-	}
-
-	fmt.Println(string(jsonData))
 	return filtered, nil
 }
