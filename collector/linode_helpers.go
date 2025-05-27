@@ -19,7 +19,6 @@ func GetLinodeRegions(client linodego.Client, ctx context.Context) ([]string, er
 	return regionIDs, nil
 }
 func GetLinodeObjectStorageEndpoints(client linodego.Client, ctx context.Context) ([]linodego.ObjectStorageEndpoint, error) {
-
 	objectStorageRegions, err := client.ListObjectStorageEndpoints(ctx, nil)
 	if err != nil {
 		return nil, err
