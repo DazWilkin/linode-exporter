@@ -22,6 +22,8 @@ github.com/linode/linodego v1.49.0 h1:MNd3qwvQzbXB5mCpvdCqlUIu1RPA9oC+50LyB9kK+G
 github.com/linode/linodego v1.49.0/go.mod h1:B+HAM3//4w1wOS0BwdaQBKwBxlfe6kYJ7bSC6jJ/xtc=
 github.com/linode/linodego v1.52.0 h1:SN1PSekrZBcHtRt1pADTz0JO7NX9pQv/Gf8Jc9s9l8w=
 github.com/linode/linodego v1.52.0/go.mod h1:zEN2sX+cSdp67EuRY1HJiyuLujoa7HqvVwNEcJv3iXw=
+github.com/linode/linodego v1.52.1 h1:HJ1cz1n9n3chRP9UrtqmP91+xTi0Q5l+H/4z4tpkwgQ=
+github.com/linode/linodego v1.52.1/go.mod h1:zEN2sX+cSdp67EuRY1HJiyuLujoa7HqvVwNEcJv3iXw=
 github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 h1:C3w9PqII01/Oq1c1nUAm88MOHcQC9l5mIlSMApZMrHA=
 github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822/go.mod h1:+n7T8mK8HuQTcFwEeznm/DIxMOiR9yIdICNftLE1DvQ=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
