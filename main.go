@@ -2,10 +2,10 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
+	"text/template"
 	"time"
 
 	"github.com/DazWilkin/linode-exporter/collector"
@@ -28,6 +28,7 @@ var (
 	// OSVersion expected to be set during build and contain the OS version (uname --kernel-release)
 	OSVersion string
 )
+
 var (
 	token       = flag.String("linode_token", os.Getenv("LINODE_TOKEN"), "Linode API Token")
 	debug       = flag.Bool("debug", false, "Enable Linode REST API debugging")
@@ -35,10 +36,32 @@ var (
 	metricsPath = flag.String("path", "/metrics", "The path on which Prometheus metrics will be served")
 )
 
+const (
+	rootContent = `<!DOCTYPE html>
+<html>
+	<head>
+		<title>Linode Exporter</title>
+	</head>
+	<body>
+		<h1>Linode Exporter</h1>
+		<p><a href="{{.MetricsPath}}">Metrics</a></p>
+	</body>
+</html>`
+)
+
+var (
+	rootTemplate = template.Must(template.New("root").Parse(rootContent))
+)
+
 func rootHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
-	fmt.Fprint(w, "<h2>Linode Exporter</h2>")
-	fmt.Fprintf(w, "<a href=\"%s\">metrics</a>", *metricsPath)
+	if err := rootTemplate.Execute(w, struct {
+		MetricsPath string
+	}{
+		MetricsPath: *metricsPath,
+	}); err != nil {
+		log.Printf("[rootHandler] error executing template: %v", err)
+	}
 }
 func main() {
 	flag.Parse()
