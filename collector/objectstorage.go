@@ -62,7 +62,7 @@ func (c *ObjectStorageCollector) Collect(ch chan<- prometheus.Metric) {
 			log.Printf("[ObjectStorageCollector:Collect:go] Bucket ID (%s)", bucket.Label)
 			labelValues := []string{
 				bucket.Label,
-				bucket.Cluster,
+				bucket.Region,
 			}
 
 			ch <- prometheus.MustNewConstMetric(
