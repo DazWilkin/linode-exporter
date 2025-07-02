@@ -36,7 +36,7 @@ var (
 	debug              = flag.Bool("debug", false, "Enable Linode REST API debugging")
 	endpoint           = flag.String("endpoint", ":9388", "The endpoint of the HTTP server")
 	metricsPath        = flag.String("path", "/metrics", "The path on which Prometheus metrics will be served")
-	enabledCollectors  = flag.String("collectors", os.Getenv("COLLECTORS"), "Comma-separated list of enabled collectors (default: all)")
+	enabledCollectors  = flag.String("collectors", os.Getenv("COLLECTORS"), "Comma-separated list of enabled collectors. If not set, all collectors are enabled.")
 	collectorFactories = map[string]func(linodego.Client) prometheus.Collector{
 		"account": func(c linodego.Client) prometheus.Collector { return collector.NewAccountCollector(c) },
 		"exporter": func(c linodego.Client) prometheus.Collector {
