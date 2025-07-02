@@ -12,16 +12,14 @@ Thanks [metalmatze](https://github.com/metalmatze)!
 
 ## References
 
-- [Linode Exporter](https://pretired.dazwilkin.com/posts/191218/)
++ [Linode Exporter](https://pretired.dazwilkin.com/posts/191218/)
 
 ## Development Installation
 
 ```bash
 go get github.com/DazWilkin/linode-exporter
 ```
-
 Then:
-
 ```bash
 LINODE_TOKEN=[[YOUR-LINODE-API-TOKEN]]
 ENDPOINT=":9388"
@@ -37,7 +35,6 @@ go run github.com/DazWilkin/linode-exporter \
 ### Linode Exporter only
 
 Either:
-
 ```bash
 LINODE_TOKEN=[[LINODE-API-TOKEN]]
 PORT=9388
@@ -56,30 +53,23 @@ The exporter's metrics endpoint will be available on `http://localhost:${PORT}/m
 **NB** AlertManager integration is a work-in-progress
 
 The following
-
 ```bash
 LINODE_TOKEN=[[LINODE-API-TOKEN]]
 docker-compose --file=${PWD}/docker-compose.yaml up
 ```
-
 You may check the state of the services using:
-
 ```bash
 docker-compose ps
 ```
-
 And logs for a specific service using, e.g.:
-
 ```bash
 docker-compose logs linode-exporter
 ```
-
 The following endpoints are exposed:
-
-- Linode-Exporter metrics: `http://localhost:9388/metrics`
-- Prometheus UI: `http://localhost:9090`
-- AlertManager UI: `http://localhost:9093`
-- cAdvisor UI: `http://localhost:8085`
++ Linode-Exporter metrics: `http://localhost:9388/metrics`
++ Prometheus UI: `http://localhost:9090`
++ AlertManager UI: `http://localhost:9093`
++ cAdvisor UI: `http://localhost:8085`
 
 **NB** cAdvisor is mapped to `:8085` rather than it's default port `:8080`
 
@@ -89,26 +79,26 @@ The full list is below.
 
 ## Metrics
 
-| Name                                       | Type    | Description                                                                         |
-| ------------------------------------------ | ------- | ----------------------------------------------------------------------------------- |
-| `linode_account_balance`                   | Gauge   |
-| `linode_account_uninvoiced`                | Gauge   |
-| `linode_exporter_up`                       | Counter | A metric with a constant value of '1' labeled with go, OS and the exporter versions |
-| `linode_instance_up`                       | Counter |
-| `linode_instance_disk`                     | Gauge   |
-| `linode_instance_memory`                   | Gauge   |
-| `linode_instance_cpus`                     | Gauge   |
-| `linode_kubernetes_up`                     | Counter |
-| `linode_kubernetes_pool`                   | Counter |
-| `linode_kubernetes_linode_up`              | Counter |
-| `linode_nodebalancer_count`                | Gauge   |
-| `linode_nodebalancer_transfer_total_bytes` | Gauge   |
-| `linode_nodebalancer_transfer_out_bytes`   | Gauge   |
-| `linode_nodebalancer_transfer_in_bytes`    | Gauge   |
-| `linode_objectstorage_objects_count`       | Gauge   |
-| `linode_objectstorage_size_bytes`          | Gauge   |
-| `linode_volume_up`                         | Counter |
-| `linode_tickets_count`                     | Gauge   |
+| Name                                         | Type    | Description
+| ----                                         | ----    | -----------
+| `linode_account_balance`                     | Gauge   |
+| `linode_account_uninvoiced`                  | Gauge   |
+| `linode_exporter_up`                         | Counter | A metric with a constant value of '1' labeled with go, OS and the exporter versions
+| `linode_instance_up`                         | Counter |
+| `linode_instance_disk`                       | Gauge   |
+| `linode_instance_memory`                     | Gauge   |
+| `linode_instance_cpus`                       | Gauge   |
+| `linode_kubernetes_up`                       | Counter |
+| `linode_kubernetes_pool`                     | Counter |
+| `linode_kubernetes_linode_up`                | Counter |
+| `linode_nodebalancer_count`                  | Gauge   |
+| `linode_nodebalancer_transfer_total_bytes`   | Gauge   |
+| `linode_nodebalancer_transfer_out_bytes`     | Gauge   |
+| `linode_nodebalancer_transfer_in_bytes`      | Gauge   |
+| `linode_objectstorage_objects_count`         | Gauge   |
+| `linode_objectstorage_size_bytes`            | Gauge   |
+| `linode_volume_up`                           | Counter |
+| `linode_tickets_count`                       | Gauge   |
 
 Please file issues and feature requests
 
@@ -141,23 +131,22 @@ ghcr.io/dazwilkin/linode-exporter:572b16a65434ae99596ab8158265b826dd4f0ff4
 > **NOTE** `cosign.pub` may be downloaded from [here](./cosign.pub)
 
 To install|update `cosign`:
-
 ```bash
 go install github.com/sigstore/cosign/cmd/cosign@latest
 ```
 
 ## Similar Exporters
 
-- [Prometheus Exporter for Azure](https://github.com/DazWilkin/azure-exporter)
-- [Prometheus Exporter for crt.sh](https://github.com/DazWilkin/crtsh-exporter)
-- [Prometheus Exporter for Fly.io](https://github.com/DazWilkin/fly-exporter)
-- [Prometheus Exporter for GoatCounter](https://github.com/DazWilkin/goatcounter-exporter)
-- [Prometheus Exporter for Google Cloud](https://github.com/DazWilkin/gcp-exporter)
-- [Prometheus Exporter for Koyeb](https://github.com/DazWilkin/koyeb-exporter)
-- [Prometheus Exporter for Linode](https://github.com/DazWilkin/linode-exporter)
-- [Prometheus Exporter for PorkBun](https://github.com/DazWilkin/porkbun-exporter)
-- [Prometheus Exporter for updown.io](https://github.com/DazWilkin/updown-exporter)
-- [Prometheus Exporter for Vultr](https://github.com/DazWilkin/vultr-exporter)
++ [Prometheus Exporter for Azure](https://github.com/DazWilkin/azure-exporter)
++ [Prometheus Exporter for crt.sh](https://github.com/DazWilkin/crtsh-exporter)
++ [Prometheus Exporter for Fly.io](https://github.com/DazWilkin/fly-exporter)
++ [Prometheus Exporter for GoatCounter](https://github.com/DazWilkin/goatcounter-exporter)
++ [Prometheus Exporter for Google Cloud](https://github.com/DazWilkin/gcp-exporter)
++ [Prometheus Exporter for Koyeb](https://github.com/DazWilkin/koyeb-exporter)
++ [Prometheus Exporter for Linode](https://github.com/DazWilkin/linode-exporter)
++ [Prometheus Exporter for PorkBun](https://github.com/DazWilkin/porkbun-exporter)
++ [Prometheus Exporter for updown.io](https://github.com/DazWilkin/updown-exporter)
++ [Prometheus Exporter for Vultr](https://github.com/DazWilkin/vultr-exporter)
 
 <hr/>
 <br/>
