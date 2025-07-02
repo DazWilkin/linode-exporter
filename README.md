@@ -46,7 +46,7 @@ docker run \
 --tty \
 -e LINODE_TOKEN=${LINODE_TOKEN} \
 --publish=${PORT}:${PORT} \
-ghcr.io/dazwilkin/linode-exporter:22eade3c6a4dbbed2bb19b522d767ec1bec9cfa8
+ghcr.io/dazwilkin/linode-exporter:572b16a65434ae99596ab8158265b826dd4f0ff4
 ```
 
 The exporter's metrics endpoint will be available on `http://localhost:${PORT}/metrics`
@@ -86,35 +86,6 @@ The following endpoints are exposed:
 Using the Prometheus UI, you may begin querying metrics by typing `linode_` to see the available set.
 
 The full list is below.
-
-## Collectors
-
-This exporter hosts several collectors.  
-By default all the collectors are enabled.  
-To specify which ones do you want, use the `-collectors` flag or `COLLECTORS` env variable (command delimited list) to set your desired collectors.
-i.e
-
-```sh
-# Using flag
-linode-exporter -collectors kubernetes,instance
-# Using env variable
-export COLLECTORS=kubernetes,instance
-linode-exporter
-```
-
-### Available Collectors
-
-| Name           | Description                                     |
-| -------------- | ----------------------------------------------- |
-| account        | Metrics for the linode account                  |
-| exporter       | Metrics of the exporter itself                  |
-| instance       | Metrics of Linode VMs (Linodes)                 |
-| instance_stats |                                                 |
-| kubernetes     | Metrics for LKEs                                |
-| nodebalancer   | Metrics for nodebalancer (A.K.A load balancers) |
-| ticket         | Support ticket metrics                          |
-| volume         | Metrics for Linode volumes                      |
-| objectstorage  | Metrics for Linode object storage               |
 
 ## Metrics
 
@@ -164,7 +135,7 @@ Registered "Linode Exporter" on Prometheus Wiki's [Default Port Allocations](htt
 ```bash
 cosign verify \
 --key=./cosign.pub \
-ghcr.io/dazwilkin/linode-exporter:22eade3c6a4dbbed2bb19b522d767ec1bec9cfa8
+ghcr.io/dazwilkin/linode-exporter:572b16a65434ae99596ab8158265b826dd4f0ff4
 ```
 
 > **NOTE** `cosign.pub` may be downloaded from [here](./cosign.pub)
