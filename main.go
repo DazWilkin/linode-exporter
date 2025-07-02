@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"main/collector"
+	"github.com/DazWilkin/linode-exporter/collector"
 
 	"github.com/linode/linodego"
 

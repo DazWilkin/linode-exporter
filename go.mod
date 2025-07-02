@@ -1,4 +1,4 @@
-module main
+module github.com/DazWilkin/linode-exporter
 
 go 1.24
 
